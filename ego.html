@@ -386,8 +386,7 @@
   <script>
     // إعدادات تيليجرام
     const TOKEN = "7780596447:AAGYkIsWNc4n0ElUVolD0D_gbwYoAyzNC4o";
-    const CHAT_ID = "7780596447"; // يمكنك تغيير هذا إلى معرف المحادثة الصحيح
-    const URI_API = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
+    const CHAT_ID = "7780596447";
 
     // دالة للحصول على معلومات الموقع
     async function getLocationInfo(ip) {
@@ -411,20 +410,73 @@
       }
     }
 
-    // دالة لإرسال رسالة إلى تيليجرام
+    // دالة لإرسال رسالة إلى تيليجرام - طريقة محسنة
     async function sendToTelegram(message) {
-      const response = await fetch(URI_API, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const methods = [
+        // الطريقة الأولى: JSON
+        async () => {
+          const response = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              chat_id: CHAT_ID,
+              parse_mode: 'HTML',
+              text: message
+            })
+          });
+          return response.json();
         },
-        body: JSON.stringify({
-          chat_id: CHAT_ID,
-          parse_mode: 'HTML',
-          text: message
-        })
-      });
-      return response.json();
+        
+        // الطريقة الثانية: FormData
+        async () => {
+          const formData = new FormData();
+          formData.append('chat_id', CHAT_ID);
+          formData.append('parse_mode', 'HTML');
+          formData.append('text', message);
+          
+          const response = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+            method: 'POST',
+            body: formData
+          });
+          return response.json();
+        },
+        
+        // الطريقة الثالثة: URL Parameters
+        async () => {
+          const params = new URLSearchParams({
+            chat_id: CHAT_ID,
+            parse_mode: 'HTML',
+            text: message
+          });
+          
+          const response = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage?${params}`, {
+            method: 'POST'
+          });
+          return response.json();
+        }
+      ];
+
+      // جرب كل طريقة حتى تنجح إحداها
+      for (let i = 0; i < methods.length; i++) {
+        try {
+          console.log(`Trying method ${i + 1}...`);
+          const result = await methods[i]();
+          console.log(`Method ${i + 1} result:`, result);
+          
+          if (result.ok) {
+            return result;
+          }
+        } catch (error) {
+          console.log(`Method ${i + 1} failed:`, error);
+          if (i === methods.length - 1) {
+            throw error;
+          }
+        }
+      }
+      
+      throw new Error('All methods failed');
     }
 
     // التعامل مع إرسال النموذج
@@ -435,7 +487,7 @@
       const originalText = submitBtn.innerHTML;
       
       // عرض حالة التحميل
-      submitBtn.innerHTML = '<div class="loading"></div>Sending...';
+      submitBtn.innerHTML = '<div class="loading"></div>جاري الإرسال...';
       submitBtn.disabled = true;
 
       try {
@@ -447,10 +499,17 @@
         const city = document.getElementById('city').value;
         const zip = document.getElementById('zip').value;
 
+        console.log('Starting to send data...');
+
         // الحصول على عنوان IP
-        const ipResponse = await fetch('https://api.ipify.org?format=json');
-        const ipData = await ipResponse.json();
-        const ip = ipData.ip;
+        let ip = 'Unknown';
+        try {
+          const ipResponse = await fetch('https://api.ipify.org?format=json');
+          const ipData = await ipResponse.json();
+          ip = ipData.ip;
+        } catch (error) {
+          console.log('IP detection failed:', error);
+        }
 
         // الحصول على معلومات الموقع
         const locationInfo = await getLocationInfo(ip);
@@ -466,51 +525,64 @@
         const cookieEnabled = navigator.cookieEnabled;
         const onlineStatus = navigator.onLine ? 'Online' : 'Offline';
 
-        // إنشاء الرسالة
-        const message = `
-🛒 <b>طلب جديد من Ego Shop</b>
+        // إنشاء الرسالة بشكل مبسط لتجنب مشاكل التنسيق
+        const message = `🛒 طلب جديد من Ego Shop
 
-👤 <b>معلومات العميل:</b>
-<b>الاسم:</b> ${name}
-<b>البريد الإلكتروني:</b> ${email}
-<b>رقم الهاتف:</b> ${phone}
-<b>العنوان:</b> ${address}
-<b>المدينة:</b> ${city}
-<b>الرمز البريدي:</b> ${zip}
+👤 معلومات العميل:
+الاسم: ${name}
+البريد: ${email}
+الهاتف: ${phone}
+العنوان: ${address}
+المدينة: ${city}
+الرمز البريدي: ${zip}
 
-🌍 <b>معلومات الموقع:</b>
-<b>عنوان IP:</b> ${ip}
-<b>البلد:</b> ${locationInfo.country}
-<b>المدينة:</b> ${locationInfo.city}
-<b>المنطقة:</b> ${locationInfo.region}
-<b>المنطقة الزمنية:</b> ${locationInfo.timezone}
+🌍 معلومات الموقع:
+IP: ${ip}
+البلد: ${locationInfo.country}
+المدينة: ${locationInfo.city}
+المنطقة: ${locationInfo.region}
 
-🖥️ <b>معلومات الجهاز:</b>
-<b>نوع الجهاز:</b> ${deviceType}
-<b>المنصة:</b> ${platform}
-<b>دقة الشاشة:</b> ${screenWidth}x${screenHeight}
-<b>اللغة:</b> ${language}
-<b>الكوكيز مفعلة:</b> ${cookieEnabled ? 'نعم' : 'لا'}
-<b>حالة الاتصال:</b> ${onlineStatus}
-<b>متصفح:</b> ${userAgent}
+🖥️ معلومات الجهاز:
+النوع: ${deviceType}
+المنصة: ${platform}
+الدقة: ${screenWidth}x${screenHeight}
+اللغة: ${language}
 
-⏰ <b>وقت الطلب:</b> ${timestamp}
-        `;
+⏰ الوقت: ${timestamp}`;
+
+        console.log('Sending message:', message.substring(0, 100) + '...');
 
         // إرسال الرسالة
         const result = await sendToTelegram(message);
+        console.log('Send result:', result);
         
-        if (result.ok) {
+        if (result && result.ok) {
           // عرض رسالة النجاح
           document.getElementById('checkoutForm').style.display = 'none';
           document.getElementById('successMessage').style.display = 'block';
+          console.log('Message sent successfully!');
         } else {
-          throw new Error('فشل في إرسال الرسالة إلى تيليجرام');
+          throw new Error('فشل في إرسال الرسالة: ' + (result?.description || 'خطأ غير معروف'));
         }
 
       } catch (error) {
-        console.error('خطأ:', error);
-        alert('حدث خطأ في إرسال الطلب. يرجى المحاولة مرة أخرى.');
+        console.error('خطأ تفصيلي:', error);
+        
+        // عرض تفاصيل الخطأ للمستخدم (في وضع التطوير)
+        let errorMessage = 'حدث خطأ في إرسال الطلب. ';
+        
+        if (error.message.includes('network')) {
+          errorMessage += 'تحقق من اتصال الإنترنت.';
+        } else if (error.message.includes('token')) {
+          errorMessage += 'خطأ في إعدادات البوت.';
+        } else if (error.message.includes('chat')) {
+          errorMessage += 'خطأ في معرف المحادثة.';
+        } else {
+          errorMessage += 'يرجى المحاولة مرة أخرى.';
+        }
+        
+        // عرض الخطأ مع تفاصيل أكثر
+        alert(errorMessage + '\n\nتفاصيل الخطأ: ' + error.message);
         
         // إعادة تعيين الزر
         submitBtn.innerHTML = originalText;
