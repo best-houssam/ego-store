@@ -1,595 +1,1528 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ego Shop</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #7d5fff, #4b0082);
-      overflow-x: hidden;
-      color: white;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC Builder RGB | مُنشئ تكوين الحاسوب المتطور</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    /* Header Styles */
-    header {
-      text-align: center;
-      padding: 3rem 1rem;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(5px);
-      box-shadow: 0 0 20px #8e44ad;
-      margin-bottom: 2rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1rem;
-    }
+        @keyframes rgbGradient {
+            0% { background: linear-gradient(45deg, #ff0081, #ff8c00, #40e0d0); }
+            25% { background: linear-gradient(45deg, #ff8c00, #40e0d0, #9d4edd); }
+            50% { background: linear-gradient(45deg, #40e0d0, #9d4edd, #ff0081); }
+            75% { background: linear-gradient(45deg, #9d4edd, #ff0081, #ff8c00); }
+            100% { background: linear-gradient(45deg, #ff0081, #ff8c00, #40e0d0); }
+        }
 
-    header h1 {
-      font-size: 3rem;
-      color: #dcd6f7;
-      text-shadow: 0 0 15px #8e44ad;
-      margin: 0;
-    }
+        @keyframes neonGlow {
+            0%, 100% { 
+                box-shadow: 0 0 20px #ff0081, 0 0 40px #ff0081, 0 0 60px #ff0081;
+                border: 2px solid #ff0081;
+            }
+            33% { 
+                box-shadow: 0 0 20px #40e0d0, 0 0 40px #40e0d0, 0 0 60px #40e0d0;
+                border: 2px solid #40e0d0;
+            }
+            66% { 
+                box-shadow: 0 0 20px #9d4edd, 0 0 40px #9d4edd, 0 0 60px #9d4edd;
+                border: 2px solid #9d4edd;
+            }
+        }
 
-    header img {
-      width: 40px;
-      height: 40px;
-    }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
 
-    /* Page Containers */
-    .page {
-      display: none;
-      animation: fadeIn 0.5s ease-in-out;
-    }
+        @keyframes slideIn {
+            from { 
+                opacity: 0; 
+                transform: translateX(-50px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateX(0);
+            }
+        }
 
-    .page.active {
-      display: block;
-    }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+        @keyframes colorShift {
+            0% { color: #ff0081; }
+            25% { color: #ff8c00; }
+            50% { color: #40e0d0; }
+            75% { color: #9d4edd; }
+            100% { color: #ff0081; }
+        }
 
-    /* Main Page Styles */
-    .search-login {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            direction: rtl;
+            overflow-x: hidden;
+            position: relative;
+        }
 
-    .search-login input[type="text"],
-    .search-login input[type="submit"] {
-      padding: 0.8rem 1.2rem;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      outline: none;
-    }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 0, 129, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(64, 224, 208, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(157, 78, 221, 0.1) 0%, transparent 50%);
+            z-index: -1;
+            animation: float 6s ease-in-out infinite;
+        }
 
-    .search-login input[type="text"] {
-      width: 300px;
-      background: #111;
-      color: #fff;
-      transition: 0.3s ease;
-    }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-    .search-login input[type="text"]:hover,
-    .search-login input[type="text"]:focus {
-      box-shadow: 0 0 15px #8e44ad;
-    }
+        .header {
+            background: linear-gradient(135deg, rgba(255, 0, 129, 0.15), rgba(64, 224, 208, 0.15));
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            border: 2px solid transparent;
+            animation: neonGlow 3s infinite, pulse 4s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
 
-    .search-login input[type="submit"] {
-      background: #8e44ad;
-      color: white;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255, 0, 129, 0.1), transparent, rgba(64, 224, 208, 0.1), transparent);
+            animation: spin 8s linear infinite;
+            z-index: -1;
+        }
 
-    .search-login input[type="submit"]:hover {
-      box-shadow: 0 0 15px #8e44ad;
-    }
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
 
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1.5rem;
-      padding: 0 2rem 4rem;
-    }
+        .header h1 {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #ff0081, #ff8c00, #40e0d0, #9d4edd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: rgbGradient 4s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(255, 0, 129, 0.5);
+        }
 
-    .product {
-      background: #111;
-      padding: 1.2rem;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      transition: 0.4s ease;
-      border: 1px solid #222;
-      cursor: pointer;
-    }
+        .header p {
+            color: #fff;
+            font-size: 1.3em;
+            text-shadow: 0 0 10px rgba(64, 224, 208, 0.8);
+            animation: colorShift 3s infinite;
+        }
 
-    .product:hover {
-      box-shadow: 0 0 25px #6c3483;
-      transform: scale(1.03);
-    }
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
 
-    .product img {
-      width: 100%;
-      border-radius: 8px;
-    }
+        .components-section {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.8s ease-out;
+        }
 
-    .product h3 {
-      margin: 1rem 0 0.5rem;
-      font-size: 1.2rem;
-      color: #f3e5f5;
-    }
+        .component-category {
+            margin-bottom: 25px;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: linear-gradient(135deg, rgba(255, 0, 129, 0.05), rgba(64, 224, 208, 0.05));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-    .product p {
-      font-size: 0.9rem;
-      color: #bbb;
-    }
+        .component-category:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 
+                0 0 30px rgba(255, 0, 129, 0.3),
+                0 0 60px rgba(64, 224, 208, 0.2),
+                0 0 90px rgba(157, 78, 221, 0.1);
+        }
 
-    /* Checkout Page Styles */
-    .form-container {
-      background: rgba(0, 0, 0, 0.6);
-      max-width: 500px;
-      margin: 2rem auto;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(5px);
-    }
+        .category-header {
+            background: linear-gradient(135deg, #ff0081, #ff8c00, #40e0d0);
+            color: white;
+            padding: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
 
-    .form-container h2 {
-      text-align: center;
-      margin-bottom: 1.5rem;
-      color: #f3e5f5;
-    }
+        .category-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
 
-    .form-container label {
-      display: block;
-      margin-bottom: 0.5rem;
-      margin-top: 1rem;
-      font-weight: 600;
-    }
+        .category-header:hover::before {
+            left: 100%;
+        }
 
-    .form-container input {
-      width: 100%;
-      padding: 0.8rem;
-      border-radius: 8px;
-      border: none;
-      margin-bottom: 1rem;
-      background-color: #222;
-      color: white;
-      font-size: 1rem;
-      box-sizing: border-box;
-    }
+        .category-header:hover {
+            background: linear-gradient(135deg, #ff8c00, #40e0d0, #9d4edd);
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(255, 0, 129, 0.4);
+        }
 
-    .form-container input:focus {
-      outline: none;
-      box-shadow: 0 0 10px #8e44ad;
-    }
+        .category-title {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 1.4em;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
 
-    .form-container button {
-      width: 100%;
-      padding: 0.9rem;
-      background-color: #8e44ad;
-      border: none;
-      border-radius: 8px;
-      color: white;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
+        .category-icon {
+            font-size: 2em;
+            animation: float 3s ease-in-out infinite;
+        }
 
-    .form-container button:hover {
-      box-shadow: 0 0 15px #8e44ad;
-    }
+        .toggle-icon {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 1.2em;
+        }
 
-    .success-message {
-      display: none;
-      text-align: center;
-      margin-top: 1.5rem;
-      font-size: 1.2rem;
-      color: #a3f7bf;
-    }
+        .category-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
 
-    .back-button {
-      background: #6c3483;
-      color: white;
-      border: none;
-      padding: 0.8rem 1.5rem;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-bottom: 1rem;
-      transition: 0.3s ease;
-    }
+        .category-content.active {
+            max-height: 800px;
+        }
 
-    .back-button:hover {
-      background: #8e44ad;
-      box-shadow: 0 0 15px #8e44ad;
-    }
+        .component-options {
+            padding: 0;
+        }
 
-    /* Background Animation */
-    .animated-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -1;
-      background: linear-gradient(45deg, #7d5fff 25%, #4b0082 75%);
-      background-size: 400% 400%;
-      animation: moveBackground 20s ease infinite;
-    }
+        .component-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.4s ease;
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 129, 0.02), transparent);
+            position: relative;
+            overflow: hidden;
+        }
 
-    @keyframes moveBackground {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+        .component-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(64, 224, 208, 0.1), transparent);
+            transition: left 0.4s;
+        }
 
-    /* Cart Animation */
-    .cart-transition {
-      position: fixed;
-      top: 50%;
-      left: -100px;
-      width: 80px;
-      height: 80px;
-      background: white;
-      border-radius: 50%;
-      background-image: url('https://cdn-icons-png.flaticon.com/512/263/263142.png');
-      background-size: 60%;
-      background-repeat: no-repeat;
-      background-position: center;
-      z-index: 9999;
-      animation: slideCart 1.2s forwards;
-    }
+        .component-item:hover::before {
+            left: 100%;
+        }
 
-    @keyframes slideCart {
-      0% { left: -100px; opacity: 1; }
-      50% { left: 50%; transform: scale(1.4); }
-      100% { left: 100vw; opacity: 0; }
-    }
+        .component-item:last-child {
+            border-bottom: none;
+        }
 
-    /* Loading animation */
-    .loading {
-      border: 3px solid #f3f3f3;
-      border-top: 3px solid #8e44ad;
-      border-radius: 50%;
-      width: 20px;
-      height: 20px;
-      animation: spin 1s linear infinite;
-      display: inline-block;
-      margin-right: 10px;
-    }
+        .component-item:hover {
+            background: linear-gradient(135deg, rgba(255, 0, 129, 0.1), rgba(64, 224, 208, 0.05));
+            transform: translateX(-10px);
+            box-shadow: 
+                5px 0 20px rgba(255, 0, 129, 0.3),
+                0 5px 20px rgba(64, 224, 208, 0.2);
+        }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-  </style>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+        .component-item.selected {
+            background: linear-gradient(135deg, rgba(255, 0, 129, 0.2), rgba(64, 224, 208, 0.15));
+            border-right: 5px solid #ff0081;
+            box-shadow: 
+                0 0 25px rgba(255, 0, 129, 0.4),
+                0 0 50px rgba(64, 224, 208, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        .component-radio {
+            margin-left: 20px;
+            transform: scale(1.5);
+            accent-color: #ff0081;
+        }
+
+        .component-details {
+            flex: 1;
+        }
+
+        .component-name {
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+            text-shadow: 0 0 10px rgba(64, 224, 208, 0.5);
+        }
+
+        .component-specs {
+            font-size: 0.95em;
+            color: #ccc;
+        }
+
+        .component-price {
+            font-weight: bold;
+            font-size: 1.2em;
+            background: linear-gradient(45deg, #ff0081, #40e0d0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px rgba(255, 0, 129, 0.5);
+        }
+
+        .summary-panel {
+            background: linear-gradient(135deg, rgba(255, 0, 129, 0.1), rgba(64, 224, 208, 0.1));
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 60px rgba(255, 0, 129, 0.1);
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .summary-title {
+            text-align: center;
+            color: #fff;
+            font-size: 1.6em;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            text-shadow: 0 0 20px rgba(64, 224, 208, 0.8);
+            animation: colorShift 4s infinite;
+        }
+
+        .selected-components {
+            margin-bottom: 25px;
+        }
+
+        .selected-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .selected-item:hover {
+            background: linear-gradient(90deg, rgba(255, 0, 129, 0.1), transparent);
+            transform: translateX(-5px);
+        }
+
+        .selected-item:last-child {
+            border-bottom: none;
+        }
+
+        .selected-name {
+            font-weight: bold;
+            color: #fff;
+            flex: 1;
+            text-shadow: 0 0 10px rgba(157, 78, 221, 0.5);
+        }
+
+        .selected-price {
+            background: linear-gradient(45deg, #ff0081, #40e0d0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+        }
+
+        .total-section {
+            background: linear-gradient(135deg, #ff0081, #ff8c00, #40e0d0);
+            color: white;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+            animation: pulse 3s infinite;
+        }
+
+        .total-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: spin 6s linear infinite;
+        }
+
+        .total-label {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            position: relative;
+            z-index: 1;
+        }
+
+        .total-price {
+            font-size: 2.5em;
+            font-weight: bold;
+            text-shadow: 0 0 25px rgba(255, 255, 255, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 18px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff0081, #ff8c00, #40e0d0);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #ff8c00, #40e0d0, #9d4edd);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 
+                0 10px 30px rgba(255, 0, 129, 0.4),
+                0 0 40px rgba(64, 224, 208, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #9d4edd, #ff0081);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #ff0081, #ff8c00);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 
+                0 10px 30px rgba(157, 78, 221, 0.4),
+                0 0 40px rgba(255, 0, 129, 0.3);
+        }
+
+        /* Particles Animation */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ff0081;
+            border-radius: 50%;
+            animation: particleFloat 8s infinite linear;
+            opacity: 0.7;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2.5em;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+
+            .summary-panel {
+                position: relative;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="animated-bg"></div>
-  
-  <header>
-    <img src="https://cdn-icons-png.flaticon.com/512/263/263142.png" alt="Cart Icon">
-    <h1 id="headerTitle">Ego Shop</h1>
-  </header>
+    <!-- Particles Background -->
+    <div class="particles" id="particles"></div>
 
-  <!-- الصفحة الرئيسية -->
-  <div id="mainPage" class="page active">
-    <div class="search-login">
-      <input type="text" placeholder="Search products...">
-      <input type="submit" value="Login">
-    </div>
-
-    <div class="product-grid" id="productGrid">
-      <!-- سيتم إنشاء المنتجات هنا بواسطة JavaScript -->
-    </div>
-  </div>
-
-  <!-- صفحة ملء المعلومات -->
-  <div id="checkoutPage" class="page">
-    <button class="back-button" onclick="goBackToMain()">← العودة للمتجر</button>
-    
-    <div class="form-container">
-      <h2>Fill Your Information</h2>
-      <form id="checkoutForm">
-        <label for="name">Full Name</label>
-        <input type="text" id="name" required>
-
-        <label for="email">Email Address</label>
-        <input type="email" id="email" required>
-
-        <label for="phone">Phone Number</label>
-        <input type="tel" id="phone" required>
-
-        <label for="address">Shipping Address</label>
-        <input type="text" id="address" required>
-
-        <label for="city">City</label>
-        <input type="text" id="city" required>
-
-        <label for="zip">ZIP Code</label>
-        <input type="text" id="zip" required>
-
-        <button type="submit" id="submitBtn">Confirm Order</button>
-      </form>
-      <div class="success-message" id="successMessage">
-        ✅ Your order has been submitted successfully!
-        <br><br>
-        <button class="back-button" onclick="goBackToMain()">عودة للتسوق</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // إنشاء المنتجات
-    function createProducts() {
-      const grid = document.getElementById('productGrid');
-      grid.innerHTML = Array.from({ length: 60 }, (_, i) => `
-        <div class="product" onclick="handleProductClick()">
-          <img src="https://via.placeholder.com/200" alt="Product">
-          <h3>Product ${i + 1}</h3>
-          <p>$${(Math.random() * 100 + 1).toFixed(2)}</p>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-desktop"></i> مُنشئ تكوين الحاسوب RGB</h1>
+            <p>✨ اختر القطع المناسبة لبناء حاسوبك المثالي مع تأثيرات RGB مذهلة ✨</p>
         </div>
-      `).join('');
-    }
 
-    // التعامل مع النقر على المنتج
-    function handleProductClick() {
-      // إنشاء انيميشن العربة
-      const cart = document.createElement('div');
-      cart.classList.add('cart-transition');
-      document.body.appendChild(cart);
+        <div class="main-content">
+            <div class="components-section">
+                <!-- معالجات Intel -->
+                <div class="component-category">
+                    <div class="category-header" onclick="toggleCategory('intel-cpu')">
+                        <div class="category-title">
+                            <i class="fas fa-microchip category-icon"></i>
+                            <span>معالجات Intel</span>
+                        </div>
+                        <i class="fas fa-chevron-down toggle-icon" id="intel-cpu-toggle"></i>
+                    </div>
+                    <div class="category-content" id="intel-cpu-content">
+                        <div class="component-options">
+                            <div class="component-item" onclick="selectComponent('intel-cpu', 'Core i3‑14100F', '22,000', this)">
+                                <input type="radio" name="cpu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">Intel Core i3‑14100F</div>
+                                    <div class="component-specs">4 أنوية، 8 خيوط، 3.5 جيجاهرتز</div>
+                                </div>
+                                <div class="component-price">22,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('intel-cpu', 'Core i5‑12400F', '32,000', this)">
+                                <input type="radio" name="cpu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">Intel Core i5‑12400F</div>
+                                    <div class="component-specs">6 أنوية، 12 خيط، 2.5 جيجاهرتز</div>
+                                </div>
+                                <div class="component-price">32,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('intel-cpu', 'Core i5‑13400F', '28,500', this)">
+                                <input type="radio" name="cpu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">Intel Core i5‑13400F</div>
+                                    <div class="component-specs">10 أنوية، 16 خيط، 2.5 جيجاهرتز</div>
+                                </div>
+                                <div class="component-price">28,500 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('intel-cpu', 'Core i7‑13700K', '45,000', this)">
+                                <input type="radio" name="cpu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">Intel Core i7‑13700K</div>
+                                    <div class="component-specs">16 نواة، 24 خيط، 3.4 جيجاهرتز</div>
+                                </div>
+                                <div class="component-price">45,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('intel-cpu', 'Core i9‑13900K', '68,000', this)">
+                                <input type="radio" name="cpu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">Intel Core i9‑13900K</div>
+                                    <div class="component-specs">24 نواة، 32 خيط، 3.0 جيجاهرتز</div>
+                                </div>
+                                <div class="component-price">68,000 دج</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-      // الانتقال إلى صفحة ملء المعلومات بعد الانيميشن
-      setTimeout(() => {
-        goToCheckout();
-        // إزالة عنصر الانيميشن
-        if (document.body.contains(cart)) {
-          document.body.removeChild(cart);
+                <!-- معالجات AMD -->
+                <div class="component-category">
+                    <div class="category-header" onclick="toggleCategory('amd-cpu')">
+                        <div class="category-title">
+                            <i class="fas fa-microchip category-icon"></i>
+                            <span>معالجات AMD</span>
+                        </div>
+                        <i class="fas fa-chevron-down toggle-icon" id="amd-cpu-toggle"></i>
+                    </div>
+                    <div class="category-content" id="amd-cpu-content">
+                        <div class="component-options">
+                            <div class="component-item" onclick="selectComponent('amd-cpu', 'Ryzen 5 5600X', '28,000', this)">
+                                <input type="radio" name="cpu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">AMD Ryzen 5 5600X</div>
+                                    <div class="component-specs">6 أنوية، 12 خيط، 3.7 جيجاهرتز</div>
+                                </div>
+                                <div class="component-price">28,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('amd-cpu', 'Ryzen 5 7600X', '32,500', this)">
+                                <input type="radio" name="cpu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">AMD Ryzen 5 7600X</div>
+                                    <div class="component-specs">6 أنوية، 12 خيط، 4.7 جيجاهرتز</div>
+                                </div>
+                                <div class="component-price">32,500 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('amd-cpu', 'Ryzen 7 7700X', '48,000', this)">
+                                <input type="radio" name="cpu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">AMD Ryzen 7 7700X</div>
+                                    <div class="component-specs">8 أنوية، 16 خيط، 4.5 جيجاهرتز</div>
+                                </div>
+                                <div class="component-price">48,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('amd-cpu', 'Ryzen 7 7800X', '52,000', this)">
+                                <input type="radio" name="cpu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">AMD Ryzen 7 7800X</div>
+                                    <div class="component-specs">8 أنوية، 16 خيط، 4.7 جيجاهرتز</div>
+                                </div>
+                                <div class="component-price">52,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('amd-cpu', 'Ryzen 5 5600G', '26,000', this)">
+                                <input type="radio" name="cpu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">AMD Ryzen 5 5600G</div>
+                                    <div class="component-specs">6 أنوية، 12 خيط، 3.9 جيجاهرتز، مع كرت شاشة مدمج</div>
+                                </div>
+                                <div class="component-price">26,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('amd-cpu', 'Ryzen 9 7900X', '72,000', this)">
+                                <input type="radio" name="cpu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">AMD Ryzen 9 7900X</div>
+                                    <div class="component-specs">12 نواة، 24 خيط، 4.7 جيجاهرتز</div>
+                                </div>
+                                <div class="component-price">72,000 دج</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- كروت الشاشة -->
+                <div class="component-category">
+                    <div class="category-header" onclick="toggleCategory('gpu')">
+                        <div class="category-title">
+                            <i class="fas fa-tv category-icon"></i>
+                            <span>كروت الشاشة</span>
+                        </div>
+                        <i class="fas fa-chevron-down toggle-icon" id="gpu-toggle"></i>
+                    </div>
+                    <div class="category-content" id="gpu-content">
+                        <div class="component-options">
+                            <div class="component-item" onclick="selectComponent('gpu', 'GT 1030 2GB', '18,000', this)">
+                                <input type="radio" name="gpu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">NVIDIA GT 1030 2GB</div>
+                                    <div class="component-specs">للألعاب الخفيفة والاستخدام الأساسي</div>
+                                </div>
+                                <div class="component-price">18,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('gpu', 'GTX 1650 4GB', '35,000', this)">
+                                <input type="radio" name="gpu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">NVIDIA GTX 1650 4GB</div>
+                                    <div class="component-specs">للألعاب المتوسطة، 1080p</div>
+                                </div>
+                                <div class="component-price">35,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('gpu', 'GTX 1660 Super 6GB', '45,000', this)">
+                                <input type="radio" name="gpu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">NVIDIA GTX 1660 Super 6GB</div>
+                                    <div class="component-specs">أداء ممتاز للألعاب 1080p</div>
+                                </div>
+                                <div class="component-price">45,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('gpu', 'RX 6600 8GB', '55,000', this)">
+                                <input type="radio" name="gpu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">AMD RX 6600 8GB</div>
+                                    <div class="component-specs">أداء قوي للألعاب الحديثة</div>
+                                </div>
+                                <div class="component-price">55,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('gpu', 'RTX 3060 12GB', '75,000', this)">
+                                <input type="radio" name="gpu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">NVIDIA RTX 3060 12GB</div>
+                                    <div class="component-specs">Ray Tracing، DLSS، 1440p gaming</div>
+                                </div>
+                                <div class="component-price">75,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('gpu', 'RX 6700 XT 12GB', '85,000', this)">
+                                <input type="radio" name="gpu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">AMD RX 6700 XT 12GB</div>
+                                    <div class="component-specs">أداء ممتاز للألعاب 1440p</div>
+                                </div>
+                                <div class="component-price">85,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('gpu', 'RTX 3070 8GB', '95,000', this)">
+                                <input type="radio" name="gpu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">NVIDIA RTX 3070 8GB</div>
+                                    <div class="component-specs">Ray Tracing متقدم، 1440p/4K</div>
+                                </div>
+                                <div class="component-price">95,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('gpu', 'RTX 4060 8GB', '88,000', this)">
+                                <input type="radio" name="gpu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">NVIDIA RTX 4060 8GB</div>
+                                    <div class="component-specs">أحدث جيل، DLSS 3.0، كفاءة طاقة</div>
+                                </div>
+                                <div class="component-price">88,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('gpu', 'RTX 4060 Ti 16GB', '115,000', this)">
+                                <input type="radio" name="gpu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">NVIDIA RTX 4060 Ti 16GB</div>
+                                    <div class="component-specs">ذاكرة كبيرة، أداء فائق</div>
+                                </div>
+                                <div class="component-price">115,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('gpu', 'RTX 4070 12GB', '135,000', this)">
+                                <input type="radio" name="gpu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">NVIDIA RTX 4070 12GB</div>
+                                    <div class="component-specs">أداء احترافي للألعاب 4K</div>
+                                </div>
+                                <div class="component-price">135,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('gpu', 'RTX 4070 Super 12GB', '155,000', this)">
+                                <input type="radio" name="gpu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">NVIDIA RTX 4070 Super 12GB</div>
+                                    <div class="component-specs">أداء محسن، للمحترفين</div>
+                                </div>
+                                <div class="component-price">155,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('gpu', 'RTX 4080 16GB', '225,000', this)">
+                                <input type="radio" name="gpu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">NVIDIA RTX 4080 16GB</div>
+                                    <div class="component-specs">للأداء الفائق والألعاب 4K</div>
+                                </div>
+                                <div class="component-price">225,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('gpu', 'RTX 4090 24GB', '350,000', this)">
+                                <input type="radio" name="gpu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">NVIDIA RTX 4090 24GB</div>
+                                    <div class="component-specs">الأقوى في السوق، للمحترفين</div>
+                                </div>
+                                <div class="component-price">350,000 دج</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- اللوحة الأم -->
+                <div class="component-category">
+                    <div class="category-header" onclick="toggleCategory('motherboard')">
+                        <div class="category-title">
+                            <i class="fas fa-memory category-icon"></i>
+                            <span>اللوحة الأم</span>
+                        </div>
+                        <i class="fas fa-chevron-down toggle-icon" id="motherboard-toggle"></i>
+                    </div>
+                    <div class="category-content" id="motherboard-content">
+                        <div class="component-options">
+                            <div class="component-item" onclick="selectComponent('motherboard', 'Gigabyte H610M', '13,000', this)">
+                                <input type="radio" name="motherboard" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">Gigabyte H610M</div>
+                                    <div class="component-specs">فئة اقتصادية، مناسبة للاستخدام الأساسي</div>
+                                </div>
+                                <div class="component-price">13,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('motherboard', 'ASUS PRIME H410M', '14,500', this)">
+                                <input type="radio" name="motherboard" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">ASUS PRIME H410M</div>
+                                    <div class="component-specs">فئة اقتصادية، موثوقة</div>
+                                </div>
+                                <div class="component-price">14,500 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('motherboard', 'MSI B560M Pro', '25,000', this)">
+                                <input type="radio" name="motherboard" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">MSI B560M Pro</div>
+                                    <div class="component-specs">فئة متوسطة، أداء جيد</div>
+                                </div>
+                                <div class="component-price">25,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('motherboard', 'Gigabyte B660M DS3H', '30,000', this)">
+                                <input type="radio" name="motherboard" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">Gigabyte B660M DS3H</div>
+                                    <div class="component-specs">فئة متوسطة، ميزات متقدمة</div>
+                                </div>
+                                <div class="component-price">30,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('motherboard', 'ASUS TUF Z790-Plus', '45,000', this)">
+                                <input type="radio" name="motherboard" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">ASUS TUF Z790-Plus</div>
+                                    <div class="component-specs">فئة قوية، للألعاب والأداء العالي</div>
+                                </div>
+                                <div class="component-price">45,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('motherboard', 'MSI MAG Z690 Tomahawk', '50,000', this)">
+                                <input type="radio" name="motherboard" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">MSI MAG Z690 Tomahawk</div>
+                                    <div class="component-specs">فئة قوية، أفضل أداء</div>
+                                </div>
+                                <div class="component-price">50,000 دج</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- الذاكرة العشوائية -->
+                <div class="component-category">
+                    <div class="category-header" onclick="toggleCategory('ram')">
+                        <div class="category-title">
+                            <i class="fas fa-memory category-icon"></i>
+                            <span>الذاكرة العشوائية RGB</span>
+                        </div>
+                        <i class="fas fa-chevron-down toggle-icon" id="ram-toggle"></i>
+                    </div>
+                    <div class="category-content" id="ram-content">
+                        <div class="component-options">
+                            <div class="component-item" onclick="selectComponent('ram', 'DDR4 8GB 3200MHz RGB', '8,400', this)">
+                                <input type="radio" name="ram" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">DDR4 8GB 3200MHz RGB</div>
+                                    <div class="component-specs">🌈 للاستخدام الأساسي، إضاءة RGB متعددة الألوان</div>
+                                </div>
+                                <div class="component-price">8,400 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('ram', 'DDR4 16GB 3200MHz RGB', '16,000', this)">
+                                <input type="radio" name="ram" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">DDR4 16GB 3200MHz RGB</div>
+                                    <div class="component-specs">🎮 مناسبة للألعاب والبرامج، إضاءة RGB مذهلة</div>
+                                </div>
+                                <div class="component-price">16,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('ram', 'DDR5 16GB 6000MHz RGB', '23,500', this)">
+                                <input type="radio" name="ram" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">DDR5 16GB 6000MHz RGB</div>
+                                    <div class="component-specs">⚡ أحدث تقنية، سرعة خيالية</div>
+                                </div>
+                                <div class="component-price">12,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('storage', 'Kingston NV2 1TB', '10,500', this)">
+                                <input type="radio" name="storage" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">Kingston NV2 1TB</div>
+                                    <div class="component-specs">🏆 علامة تجارية موثوقة</div>
+                                </div>
+                                <div class="component-price">10,500 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('storage', 'Samsung 980 PRO 1TB RGB', '15,000', this)">
+                                <input type="radio" name="storage" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">Samsung 980 PRO 1TB RGB</div>
+                                    <div class="component-specs">👑 الأفضل في السوق، مع إضاءة RGB</div>
+                                </div>
+                                <div class="component-price">15,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('storage', 'WD Black SN850X 1TB RGB', '16,500', this)">
+                                <input type="radio" name="storage" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">WD Black SN850X 1TB RGB</div>
+                                    <div class="component-specs">🎮 للألعاب والمحترفين، RGB متطور</div>
+                                </div>
+                                <div class="component-price">16,500 دج</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-panel">
+                <h3 class="summary-title">
+                    <i class="fas fa-shopping-cart"></i>
+                    ملخص التكوين RGB
+                </h3>
+                
+                <div class="selected-components" id="selected-components">
+                    <div class="selected-item">
+                        <span class="selected-name">✨ لم يتم اختيار أي قطعة بعد ✨</span>
+                        <span class="selected-price"></span>
+                    </div>
+                </div>
+
+                <div class="total-section">
+                    <div class="total-label">💰 السعر الإجمالي 💰</div>
+                    <div class="total-price" id="total-price">0 دج</div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="saveConfiguration()">
+                        <i class="fas fa-save"></i> حفظ التكوين RGB
+                    </button>
+                    <button class="btn btn-secondary" onclick="resetConfiguration()">
+                        <i class="fas fa-refresh"></i> إعادة تعيين
+                    </button>
+                    <button class="btn btn-primary" onclick="shareConfiguration()">
+                        <i class="fas fa-share"></i> مشاركة التكوين
+                    </button>
+                    <button class="btn btn-secondary" onclick="generateRandomBuild()">
+                        <i class="fas fa-dice"></i> تكوين عشوائي
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedComponents = {};
+        let totalPrice = 0;
+
+        // إنشاء جزيئات RGB متحركة
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const colors = ['#ff0081', '#ff8c00', '#40e0d0', '#9d4edd', '#00ff88'];
+            
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 5) + 's';
+                particlesContainer.appendChild(particle);
+            }
         }
-      }, 1200);
-    }
 
-    // الانتقال لصفحة ملء المعلومات
-    function goToCheckout() {
-      document.getElementById('mainPage').classList.remove('active');
-      document.getElementById('checkoutPage').classList.add('active');
-      document.getElementById('headerTitle').textContent = 'Checkout';
-      
-      // إعادة تعيين النموذج
-      document.getElementById('checkoutForm').style.display = 'block';
-      document.getElementById('successMessage').style.display = 'none';
-      document.getElementById('checkoutForm').reset();
-    }
-
-    // العودة للصفحة الرئيسية
-    function goBackToMain() {
-      document.getElementById('checkoutPage').classList.remove('active');
-      document.getElementById('mainPage').classList.add('active');
-      document.getElementById('headerTitle').textContent = 'Ego Shop';
-    }
-
-    // إنشاء المنتجات عند تحميل الصفحة
-    window.addEventListener('load', createProducts);
-  </script>
-
-  <script>
-    // إعدادات تيليجرام
-    const TOKEN = "7780596447:AAGYkIsWNc4n0ElUVolD0D_gbwYoAyzNC4o";
-    const CHAT_ID = "7780596447";
-
-    // دالة للحصول على معلومات الموقع
-    async function getLocationInfo(ip) {
-      try {
-        const response = await fetch(`https://ipapi.co/${ip}/json/`);
-        const data = await response.json();
-        return {
-          country: data.country_name || 'Unknown',
-          city: data.city || 'Unknown',
-          region: data.region || 'Unknown',
-          timezone: data.timezone || 'Unknown'
-        };
-      } catch (error) {
-        console.log('Location info not available:', error);
-        return {
-          country: 'Unknown',
-          city: 'Unknown',
-          region: 'Unknown',
-          timezone: 'Unknown'
-        };
-      }
-    }
-
-    // دالة لإرسال رسالة إلى تيليجرام - طريقة محسنة
-    async function sendToTelegram(message) {
-      const methods = [
-        // الطريقة الأولى: JSON
-        async () => {
-          const response = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              chat_id: CHAT_ID,
-              parse_mode: 'HTML',
-              text: message
-            })
-          });
-          return response.json();
-        },
-        
-        // الطريقة الثانية: FormData
-        async () => {
-          const formData = new FormData();
-          formData.append('chat_id', CHAT_ID);
-          formData.append('parse_mode', 'HTML');
-          formData.append('text', message);
-          
-          const response = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
-            method: 'POST',
-            body: formData
-          });
-          return response.json();
-        },
-        
-        // الطريقة الثالثة: URL Parameters
-        async () => {
-          const params = new URLSearchParams({
-            chat_id: CHAT_ID,
-            parse_mode: 'HTML',
-            text: message
-          });
-          
-          const response = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage?${params}`, {
-            method: 'POST'
-          });
-          return response.json();
-        }
-      ];
-
-      // جرب كل طريقة حتى تنجح إحداها
-      for (let i = 0; i < methods.length; i++) {
-        try {
-          console.log(`Trying method ${i + 1}...`);
-          const result = await methods[i]();
-          console.log(`Method ${i + 1} result:`, result);
-          
-          if (result.ok) {
-            return result;
-          }
-        } catch (error) {
-          console.log(`Method ${i + 1} failed:`, error);
-          if (i === methods.length - 1) {
-            throw error;
-          }
-        }
-      }
-      
-      throw new Error('All methods failed');
-    }
-
-    // التعامل مع إرسال النموذج
-    document.getElementById('checkoutForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      
-      const submitBtn = document.getElementById('submitBtn');
-      const originalText = submitBtn.innerHTML;
-      
-      // عرض حالة التحميل
-      submitBtn.innerHTML = '<div class="loading"></div>جاري الإرسال...';
-      submitBtn.disabled = true;
-
-      try {
-        // جمع بيانات النموذج
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const phone = document.getElementById('phone').value;
-        const address = document.getElementById('address').value;
-        const city = document.getElementById('city').value;
-        const zip = document.getElementById('zip').value;
-
-        console.log('Starting to send data...');
-
-        // الحصول على عنوان IP
-        let ip = 'Unknown';
-        try {
-          const ipResponse = await fetch('https://api.ipify.org?format=json');
-          const ipData = await ipResponse.json();
-          ip = ipData.ip;
-        } catch (error) {
-          console.log('IP detection failed:', error);
+        function toggleCategory(categoryId) {
+            const content = document.getElementById(categoryId + '-content');
+            const toggle = document.getElementById(categoryId + '-toggle');
+            
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                toggle.style.transform = 'rotate(0deg)';
+            } else {
+                content.classList.add('active');
+                toggle.style.transform = 'rotate(180deg)';
+            }
         }
 
-        // الحصول على معلومات الموقع
-        const locationInfo = await getLocationInfo(ip);
+        function selectComponent(category, name, price, element) {
+            // إزالة التحديد السابق في نفس الفئة
+            const categoryElements = element.parentNode.querySelectorAll('.component-item');
+            categoryElements.forEach(el => {
+                el.classList.remove('selected');
+                el.querySelector('.component-radio').checked = false;
+            });
 
-        // معلومات الجهاز
-        const userAgent = navigator.userAgent;
-        const platform = navigator.platform;
-        const screenWidth = screen.width;
-        const screenHeight = screen.height;
-        const deviceType = /mobile/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop';
-        const timestamp = new Date().toLocaleString('ar-EG', {timeZone: 'Africa/Cairo'});
-        const language = navigator.language;
-        const cookieEnabled = navigator.cookieEnabled;
-        const onlineStatus = navigator.onLine ? 'Online' : 'Offline';
+            // تحديد العنصر الجديد
+            element.classList.add('selected');
+            element.querySelector('.component-radio').checked = true;
 
-        // إنشاء الرسالة بشكل مبسط لتجنب مشاكل التنسيق
-        const message = `🛒 طلب جديد من Ego Shop
+            // إضافة تأثير انفجار RGB
+            createRGBExplosion(element);
 
-👤 معلومات العميل:
-الاسم: ${name}
-البريد: ${email}
-الهاتف: ${phone}
-العنوان: ${address}
-المدينة: ${city}
-الرمز البريدي: ${zip}
+            // حفظ البيانات
+            const oldPrice = selectedComponents[category] ? parseInt(selectedComponents[category].price.replace(',', '')) : 0;
+            const newPrice = parseInt(price.replace(',', ''));
+            
+            selectedComponents[category] = {
+                name: name,
+                price: price
+            };
 
-🌍 معلومات الموقع:
-IP: ${ip}
-البلد: ${locationInfo.country}
-المدينة: ${locationInfo.city}
-المنطقة: ${locationInfo.region}
-
-🖥️ معلومات الجهاز:
-النوع: ${deviceType}
-المنصة: ${platform}
-الدقة: ${screenWidth}x${screenHeight}
-اللغة: ${language}
-
-⏰ الوقت: ${timestamp}`;
-
-        console.log('Sending message:', message.substring(0, 100) + '...');
-
-        // إرسال الرسالة
-        const result = await sendToTelegram(message);
-        console.log('Send result:', result);
-        
-        if (result && result.ok) {
-          // عرض رسالة النجاح
-          document.getElementById('checkoutForm').style.display = 'none';
-          document.getElementById('successMessage').style.display = 'block';
-          console.log('Message sent successfully!');
-        } else {
-          throw new Error('فشل في إرسال الرسالة: ' + (result?.description || 'خطأ غير معروف'));
+            // تحديث السعر الإجمالي
+            totalPrice = totalPrice - oldPrice + newPrice;
+            updateSummary();
         }
 
-      } catch (error) {
-        console.error('خطأ تفصيلي:', error);
-        
-        // عرض تفاصيل الخطأ للمستخدم (في وضع التطوير)
-        let errorMessage = 'حدث خطأ في إرسال الطلب. ';
-        
-        if (error.message.includes('network')) {
-          errorMessage += 'تحقق من اتصال الإنترنت.';
-        } else if (error.message.includes('token')) {
-          errorMessage += 'خطأ في إعدادات البوت.';
-        } else if (error.message.includes('chat')) {
-          errorMessage += 'خطأ في معرف المحادثة.';
-        } else {
-          errorMessage += 'يرجى المحاولة مرة أخرى.';
+        function createRGBExplosion(element) {
+            const rect = element.getBoundingClientRect();
+            const colors = ['#ff0081', '#ff8c00', '#40e0d0', '#9d4edd'];
+            
+            for (let i = 0; i < 10; i++) {
+                const spark = document.createElement('div');
+                spark.style.position = 'fixed';
+                spark.style.left = rect.left + rect.width/2 + 'px';
+                spark.style.top = rect.top + rect.height/2 + 'px';
+                spark.style.width = '4px';
+                spark.style.height = '4px';
+                spark.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                spark.style.borderRadius = '50%';
+                spark.style.pointerEvents = 'none';
+                spark.style.zIndex = '1000';
+                
+                const angle = (Math.PI * 2 * i) / 10;
+                const velocity = 50 + Math.random() * 50;
+                const vx = Math.cos(angle) * velocity;
+                const vy = Math.sin(angle) * velocity;
+                
+                spark.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                document.body.appendChild(spark);
+                
+                setTimeout(() => {
+                    spark.style.transform = `translate(${vx}px, ${vy}px)`;
+                    spark.style.opacity = '0';
+                }, 10);
+                
+                setTimeout(() => {
+                    document.body.removeChild(spark);
+                }, 600);
+            }
         }
-        
-        // عرض الخطأ مع تفاصيل أكثر
-        alert(errorMessage + '\n\nتفاصيل الخطأ: ' + error.message);
-        
-        // إعادة تعيين الزر
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-      }
-    });
-  </script>
 
+        function updateSummary() {
+            const summaryContainer = document.getElementById('selected-components');
+            const totalPriceElement = document.getElementById('total-price');
+
+            // مسح المحتوى السابق
+            summaryContainer.innerHTML = '';
+
+            if (Object.keys(selectedComponents).length === 0) {
+                summaryContainer.innerHTML = `
+                    <div class="selected-item">
+                        <span class="selected-name">✨ لم يتم اختيار أي قطعة بعد ✨</span>
+                        <span class="selected-price"></span>
+                    </div>
+                `;
+            } else {
+                // عرض القطع المختارة
+                Object.keys(selectedComponents).forEach(category => {
+                    const component = selectedComponents[category];
+                    const categoryNames = {
+                        'intel-cpu': '🖥️ معالج Intel',
+                        'amd-cpu': '🖥️ معالج AMD',
+                        'gpu': '🎮 كرت الشاشة',
+                        'motherboard': '🔧 اللوحة الأم',
+                        'ram': '🧠 الذاكرة العشوائية',
+                        'psu': '⚡ مزود الطاقة',
+                        'case': '📦 الصندوق',
+                        'storage': '💾 التخزين'
+                    };
+
+                    summaryContainer.innerHTML += `
+                        <div class="selected-item">
+                            <div>
+                                <div class="selected-name">${categoryNames[category]}</div>
+                                <div style="font-size: 0.9em; color: #ccc;">${component.name}</div>
+                            </div>
+                            <span class="selected-price">${component.price} دج</span>
+                        </div>
+                    `;
+                });
+            }
+
+            // تحديث السعر الإجمالي مع تأثير RGB
+            totalPriceElement.textContent = totalPrice.toLocaleString() + ' دج';
+            
+            // إضافة تأثير وميض RGB للسعر الإجمالي
+            if (totalPrice > 0) {
+                totalPriceElement.style.animation = 'colorShift 2s infinite, pulse 1s ease-in-out';
+            }
+        }
+
+        function saveConfiguration() {
+            if (Object.keys(selectedComponents).length === 0) {
+                showRGBAlert('⚠️ يرجى اختيار قطعة واحدة على الأقل قبل الحفظ', 'warning');
+                return;
+            }
+
+            const config = {
+                components: selectedComponents,
+                total: totalPrice,
+                date: new Date().toLocaleDateString('ar-SA')
+            };
+
+            // محاكاة حفظ التكوين مع تأثير RGB
+            showRGBAlert('✅ تم حفظ التكوين بنجاح!\n\n💰 السعر الإجمالي: ' + totalPrice.toLocaleString() + ' دج\n🌈 مع إضاءة RGB مذهلة!', 'success');
+            createConfetti();
+        }
+
+        function resetConfiguration() {
+            if (confirm('🔄 هل أنت متأكد من إعادة تعيين جميع الاختيارات؟')) {
+                selectedComponents = {};
+                totalPrice = 0;
+                
+                // إزالة جميع التحديدات
+                document.querySelectorAll('.component-item').forEach(item => {
+                    item.classList.remove('selected');
+                    item.querySelector('.component-radio').checked = false;
+                });
+
+                updateSummary();
+                showRGBAlert('🔄 تم إعادة تعيين التكوين بنجاح!', 'info');
+            }
+        }
+
+        function shareConfiguration() {
+            if (Object.keys(selectedComponents).length === 0) {
+                showRGBAlert('⚠️ يرجى اختيار قطع أولاً قبل المشاركة', 'warning');
+                return;
+            }
+
+            let shareText = '🖥️💎 تكوين الحاسوب RGB الخاص بي:\n\n';
+            
+            Object.keys(selectedComponents).forEach(category => {
+                const component = selectedComponents[category];
+                const categoryNames = {
+                    'intel-cpu': '🖥️ معالج Intel',
+                    'amd-cpu': '🖥️ معالج AMD', 
+                    'gpu': '🎮 كرت الشاشة',
+                    'motherboard': '🔧 اللوحة الأم',
+                    'ram': '🧠 الذاكرة العشوائية',
+                    'psu': '⚡ مزود الطاقة',
+                    'case': '📦 الصندوق',
+                    'storage': '💾 التخزين'
+                };
+                
+                shareText += `${categoryNames[category]}: ${component.name} - ${component.price} دج\n`;
+            });
+            
+            shareText += `\n💰✨ السعر الإجمالي: ${totalPrice.toLocaleString()} دج\n🌈 مع إضاءة RGB مذهلة!`;
+
+            // نسخ النص إلى الحافظة
+            navigator.clipboard.writeText(shareText).then(() => {
+                showRGBAlert('📋✨ تم نسخ تفاصيل التكوين RGB إلى الحافظة!', 'success');
+                createConfetti();
+            }).catch(() => {
+                // في حالة عدم دعم النسخ، عرض النص في نافذة منبثقة
+                alert(shareText);
+            });
+        }
+
+        function generateRandomBuild() {
+            // إعادة تعيين التكوين الحالي
+            selectedComponents = {};
+            totalPrice = 0;
+            
+            document.querySelectorAll('.component-item').forEach(item => {
+                item.classList.remove('selected');
+                item.querySelector('.component-radio').checked = false;
+            });
+
+            // اختيار قطع عشوائية من كل فئة
+            const categories = ['intel-cpu', 'gpu', 'motherboard', 'ram', 'psu', 'case', 'storage'];
+            
+            categories.forEach(category => {
+                const categoryContent = document.getElementById(category + '-content');
+                const items = categoryContent.querySelectorAll('.component-item');
+                const randomIndex = Math.floor(Math.random() * items.length);
+                const randomItem = items[randomIndex];
+                
+                // محاكاة النقر على العنصر العشوائي
+                randomItem.click();
+            });
+
+            showRGBAlert('🎲✨ تم إنشاء تكوين عشوائي مذهل!\n🌈 مع إضاءة RGB رائعة!', 'info');
+            createConfetti();
+        }
+
+        function showRGBAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.style.position = 'fixed';
+            alertDiv.style.top = '50%';
+            alertDiv.style.left = '50%';
+            alertDiv.style.transform = 'translate(-50%, -50%)';
+            alertDiv.style.padding = '30px';
+            alertDiv.style.borderRadius = '20px';
+            alertDiv.style.color = 'white';
+            alertDiv.style.fontSize = '18px';
+            alertDiv.style.textAlign = 'center';
+            alertDiv.style.zIndex = '10000';
+            alertDiv.style.maxWidth = '500px';
+            alertDiv.style.backdropFilter = 'blur(20px)';
+            alertDiv.style.border = '2px solid';
+            alertDiv.style.whiteSpace = 'pre-line';
+            
+            const colors = {
+                success: 'linear-gradient(135deg, #00ff88, #40e0d0)',
+                warning: 'linear-gradient(135deg, #ff8c00, #ff0081)',
+                info: 'linear-gradient(135deg, #40e0d0, #9d4edd)',
+                error: 'linear-gradient(135deg, #ff0081, #ff8c00)'
+            };
+            
+            alertDiv.style.background = colors[type];
+            alertDiv.style.borderColor = type === 'success' ? '#00ff88' : type === 'warning' ? '#ff8c00' : '#40e0d0';
+            alertDiv.style.animation = 'neonGlow 2s infinite, pulse 1s ease-in-out';
+            alertDiv.textContent = message;
+            
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.style.opacity = '0';
+                alertDiv.style.transform = 'translate(-50%, -50%) scale(0.8)';
+                alertDiv.style.transition = 'all 0.5s ease';
+                setTimeout(() => {
+                    document.body.removeChild(alertDiv);
+                }, 500);
+            }, 3000);
+        }
+
+        function createConfetti() {
+            const colors = ['#ff0081', '#ff8c00', '#40e0d0', '#9d4edd', '#00ff88'];
+            
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = '-10px';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                confetti.style.pointerEvents = 'none';
+                confetti.style.zIndex = '9999';
+                confetti.style.animation = `particleFloat ${3 + Math.random() * 2}s linear forwards`;
+                
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    if (document.body.contains(confetti)) {
+                        document.body.removeChild(confetti);
+                    }
+                }, 5000);
+            }
+        }
+
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            toggleCategory('intel-cpu');
+            
+            // إضافة تأثيرات إضافية للتفاعل
+            document.querySelectorAll('.component-item').forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.boxShadow = '0 0 30px rgba(255, 0, 129, 0.5), 0 0 60px rgba(64, 224, 208, 0.3)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    if (!this.classList.contains('selected')) {
+                        this.style.boxShadow = '';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
-</html>
+</html>ث تقنية، أداء فائق، RGB بـ 16 مليون لون</div>
+                                </div>
+                                <div class="component-price">23,500 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('ram', 'DDR5 32GB 5200MHz RGB', '35,000', this)">
+                                <input type="radio" name="ram" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">DDR5 32GB 5200MHz RGB</div>
+                                    <div class="component-specs">💼 للمهام الثقيلة والإنتاجية، RGB متزامن</div>
+                                </div>
+                                <div class="component-price">35,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('ram', 'Corsair Vengeance RGB Pro 32GB', '40,000', this)">
+                                <input type="radio" name="ram" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">Corsair Vengeance RGB Pro 32GB</div>
+                                    <div class="component-specs">👑 أفضل جودة وأداء، RGB احترافي قابل للتحكم</div>
+                                </div>
+                                <div class="component-price">40,000 دج</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- مزود الطاقة -->
+                <div class="component-category">
+                    <div class="category-header" onclick="toggleCategory('psu')">
+                        <div class="category-title">
+                            <i class="fas fa-plug category-icon"></i>
+                            <span>مزود الطاقة RGB</span>
+                        </div>
+                        <i class="fas fa-chevron-down toggle-icon" id="psu-toggle"></i>
+                    </div>
+                    <div class="category-content" id="psu-content">
+                        <div class="component-options">
+                            <div class="component-item" onclick="selectComponent('psu', 'MAXIPOWER 400W', '4,000', this)">
+                                <input type="radio" name="psu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">MAXIPOWER 400W</div>
+                                    <div class="component-specs">⚡ للاستخدام الأساسي</div>
+                                </div>
+                                <div class="component-price">4,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('psu', 'Cooler Master RGB 450W', '5,500', this)">
+                                <input type="radio" name="psu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">Cooler Master RGB 450W</div>
+                                    <div class="component-specs">🌈 جودة جيدة، موثوق، مروحة RGB</div>
+                                </div>
+                                <div class="component-price">5,500 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('psu', 'Mars Gaming MPB550W RGB', '6,000', this)">
+                                <input type="radio" name="psu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">Mars Gaming MPB550W RGB</div>
+                                    <div class="component-specs">🎮 مناسب للألعاب المتوسطة، إضاءة RGB</div>
+                                </div>
+                                <div class="component-price">6,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('psu', 'Thermaltake RGB Pro 500W', '6,500', this)">
+                                <input type="radio" name="psu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">Thermaltake RGB Pro 500W</div>
+                                    <div class="component-specs">✨ كفاءة عالية، مروحة RGB 140mm</div>
+                                </div>
+                                <div class="component-price">6,500 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('psu', 'Mars Gaming MPB650W RGB', '7,500', this)">
+                                <input type="radio" name="psu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">Mars Gaming MPB650W RGB</div>
+                                    <div class="component-specs">🚀 للألعاب والأداء العالي، RGB متزامن</div>
+                                </div>
+                                <div class="component-price">7,500 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('psu', 'MSI MPG A650GF RGB', '9,000', this)">
+                                <input type="radio" name="psu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">MSI MPG A650GF RGB</div>
+                                    <div class="component-specs">🏆 80+ Gold، كفاءة ممتازة، RGB مع التحكم</div>
+                                </div>
+                                <div class="component-price">9,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('psu', 'EVGA 650W Bronze RGB', '9,500', this)">
+                                <input type="radio" name="psu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">EVGA 650W Bronze RGB</div>
+                                    <div class="component-specs">⭐ 80+ Bronze، موثوق، إضاءة RGB رائعة</div>
+                                </div>
+                                <div class="component-price">9,500 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('psu', 'Corsair RM750x RGB', '11,000', this)">
+                                <input type="radio" name="psu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">Corsair RM750x RGB</div>
+                                    <div class="component-specs">💎 80+ Gold، أداء فائق، RGB احترافي</div>
+                                </div>
+                                <div class="component-price">11,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('psu', 'Asus ROG Strix 850W RGB', '14,000', this)">
+                                <input type="radio" name="psu" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">Asus ROG Strix 850W RGB</div>
+                                    <div class="component-specs">👑 للأنظمة عالية الأداء، RGB بتقنية AURA</div>
+                                </div>
+                                <div class="component-price">14,000 دج</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- صندوق الحاسوب RGB -->
+                <div class="component-category">
+                    <div class="category-header" onclick="toggleCategory('case')">
+                        <div class="category-title">
+                            <i class="fas fa-cube category-icon"></i>
+                            <span>صندوق الحاسوب RGB</span>
+                        </div>
+                        <i class="fas fa-chevron-down toggle-icon" id="case-toggle"></i>
+                    </div>
+                    <div class="category-content" id="case-content">
+                        <div class="component-options">
+                            <div class="component-item" onclick="selectComponent('case', 'Basic Case Black', '4,000', this)">
+                                <input type="radio" name="case" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">Basic Case Black</div>
+                                    <div class="component-specs">⚫ صندوق أساسي، لون أسود</div>
+                                </div>
+                                <div class="component-price">4,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('case', 'RGB Gaming Case Pro', '6,000', this)">
+                                <input type="radio" name="case" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">RGB Gaming Case Pro</div>
+                                    <div class="component-specs">🌈 إضاءة RGB متعددة الألوان، تصميم جذاب</div>
+                                </div>
+                                <div class="component-price">6,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('case', 'MSI MAG Forge 100R RGB', '8,000', this)">
+                                <input type="radio" name="case" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">MSI MAG Forge 100R RGB</div>
+                                    <div class="component-specs">✨ تهوية جيدة، تصميم أنيق، RGB متزامن</div>
+                                </div>
+                                <div class="component-price">8,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('case', 'Cooler Master MB320L ARGB', '9,000', this)">
+                                <input type="radio" name="case" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">Cooler Master MB320L ARGB</div>
+                                    <div class="component-specs">🎮 جودة ممتازة، سهل التركيب، ARGB</div>
+                                </div>
+                                <div class="component-price">9,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('case', 'Thermaltake V200 RGB', '10,000', this)">
+                                <input type="radio" name="case" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">Thermaltake V200 RGB</div>
+                                    <div class="component-specs">💎 زجاج شفاف، RGB بـ 256 تأثير</div>
+                                </div>
+                                <div class="component-price">10,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('case', 'NZXT H510 Elite RGB', '12,000', this)">
+                                <input type="radio" name="case" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">NZXT H510 Elite RGB</div>
+                                    <div class="component-specs">🎯 تصميم مينيمال، جودة عالية، RGB ذكي</div>
+                                </div>
+                                <div class="component-price">12,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('case', 'Lian Li LANCOOL 215 RGB', '13,500', this)">
+                                <input type="radio" name="case" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">Lian Li LANCOOL 215 RGB</div>
+                                    <div class="component-specs">🌟 تهوية فائقة، مواد ممتازة، RGB احترافي</div>
+                                </div>
+                                <div class="component-price">13,500 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('case', 'Asus TUF GT501 RGB', '15,000', this)">
+                                <input type="radio" name="case" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">Asus TUF GT501 RGB</div>
+                                    <div class="component-specs">👑 للأنظمة عالية الأداء، RGB بتقنية AURA</div>
+                                </div>
+                                <div class="component-price">15,000 دج</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- وحدات التخزين -->
+                <div class="component-category">
+                    <div class="category-header" onclick="toggleCategory('storage')">
+                        <div class="category-title">
+                            <i class="fas fa-hdd category-icon"></i>
+                            <span>وحدات التخزين</span>
+                        </div>
+                        <i class="fas fa-chevron-down toggle-icon" id="storage-toggle"></i>
+                    </div>
+                    <div class="category-content" id="storage-content">
+                        <div class="component-options">
+                            <div class="component-item" onclick="selectComponent('storage', 'SSD SATA 240GB', '3,500', this)">
+                                <input type="radio" name="storage" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">SSD SATA 240GB</div>
+                                    <div class="component-specs">⚡ سرعة جيدة، مساحة أساسية</div>
+                                </div>
+                                <div class="component-price">3,500 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('storage', 'SSD SATA 480GB', '6,000', this)">
+                                <input type="radio" name="storage" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">SSD SATA 480GB</div>
+                                    <div class="component-specs">💾 مساحة مناسبة للبرامج</div>
+                                </div>
+                                <div class="component-price">6,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('storage', 'SSD SATA 1TB', '9,000', this)">
+                                <input type="radio" name="storage" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">SSD SATA 1TB</div>
+                                    <div class="component-specs">🎮 مساحة كبيرة، سرعة جيدة</div>
+                                </div>
+                                <div class="component-price">9,000 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('storage', 'NVMe 500GB PCIe 3.0', '7,500', this)">
+                                <input type="radio" name="storage" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">NVMe 500GB PCIe 3.0</div>
+                                    <div class="component-specs">🚀 سرعة فائقة، تقنية حديثة</div>
+                                </div>
+                                <div class="component-price">7,500 دج</div>
+                            </div>
+                            <div class="component-item" onclick="selectComponent('storage', 'NVMe 1TB PCIe 4.0', '12,000', this)">
+                                <input type="radio" name="storage" class="component-radio">
+                                <div class="component-details">
+                                    <div class="component-name">NVMe 1TB PCIe 4.0</div>
+                                    <div class="component-specs">⚡ أحد
