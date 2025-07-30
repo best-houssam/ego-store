@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Houssam | Developer Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <style>
+    * {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      transition: background 0.4s, color 0.4s;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      top: 0;
+      left: 0;
+    }
+
+    body.light-mode {
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef, #dee2e6);
+      color: #111;
+    }
+
+    body.light-mode .card {
+      background: rgba(255,255,255,0.8) !important;
+      border: 1px solid #00a6a6 !important;
+      color: #111 !important;
+    }
+
+    body.light-mode footer {
+      background: #f8f9fa !important;
+      color: #111 !important;
+    }
+
+    body.light-mode .navbar {
+      background: rgba(248, 249, 250, 0.9) !important;
+    }
+
+    header {
+      text-align: center;
+      padding: 3rem 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(45deg, #00e6e6, #00a6a6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+
+    .cv-btn {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 12px 24px;
+      background: linear-gradient(45deg, #00e6e6, #00a6a6);
+      color: #000;
+      border: none;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 230, 230, 0.3);
+    }
+
+    .cv-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 230, 230, 0.4);
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      padding: 15px;
+      gap: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar a {
+      color: #00e6e6;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 8px 16px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .navbar a:hover {
+      background: rgba(0, 230, 230, 0.2);
+      transform: translateY(-2px);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: rgba(17, 17, 17, 0.9);
+      color: #aaa;
+      margin-top: 3rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .top-bar {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 1000;
+    }
+
+    #langSelect {
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      border: 1px solid #00e6e6;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    #modeToggle {
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid #00e6e6;
+      border-radius: 5px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #00e6e6;
+      padding: 5px 10px;
+      transition: all 0.3s ease;
+    }
+
+    #modeToggle:hover {
+      background: rgba(0, 230, 230, 0.2);
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    main section {
+      padding: 3rem 0;
+      margin-bottom: 2rem;
+    }
+
+    h2 {
+      border-bottom: 3px solid #00e6e6;
+      margin-bottom: 2rem;
+      color: #00e6e6;
+      font-size: 2rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(0, 230, 230, 0.3);
+      border-radius: 15px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 10px 25px rgba(0, 230, 230, 0.2);
+      border-color: #00e6e6;
+    }
+
+    .card h3 {
+      color: #00e6e6;
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+    }
+
+    .card p, .card ul {
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    .card ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .card ul li {
+      padding: 0.3rem 0;
+      position: relative;
+      padding-left: 1.5rem;
+    }
+
+    .card ul li:before {
+      content: "▸";
+      color: #00e6e6;
+      position: absolute;
+      left: 0;
+    }
+
+    form {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    form input, form textarea, form button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 230, 230, 0.3);
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    form input::placeholder, form textarea::placeholder {
+      color: rgba(255,255,255,0.6);
+    }
+
+    form button {
+      background: linear-gradient(45deg, #00e6e6, #00a6a6);
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+    }
+
+    form button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 230, 230, 0.3);
+    }
+
+    .skill-tag {
+      display: inline-block;
+      background: rgba(0, 230, 230, 0.2);
+      color: #00e6e6;
+      padding: 0.3rem 0.8rem;
+      margin: 0.2rem;
+      border-radius: 15px;
+      font-size: 0.9rem;
+      border: 1px solid rgba(0, 230, 230, 0.3);
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      
+      .navbar {
+        padding: 10px;
+        gap: 10px;
+      }
+      
+      .navbar a {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+      }
+      
+      .card-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      
+      main section {
+        padding: 2rem 0;
+      }
+      
+      .top-bar {
+        top: 10px;
+        left: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="particles-js"></div>
+  <div class="top-bar">
+    <select id="langSelect" onchange="switchLang(this.value)">
+      <option value="en">🇬🇧 English</option>
+      <option value="ar">🇸🇦 العربية</option>
+    </select>
+    <button id="modeToggle">🌓</button>
+  </div>
+
+  <header>
+    <h1 data-en="Houssam - Full Stack Developer" data-ar="حسام - مطور شامل">Houssam - Full Stack Developer</h1>
+    <p data-en="Turning ideas into real-world solutions" data-ar="تحويل الأفكار إلى حلول واقعية">Turning ideas into real-world solutions</p>
+  </header>
+
+  <nav class="navbar">
+    <a href="#about" data-en="About" data-ar="عنّي">About</a>
+    <a href="#skills" data-en="Skills" data-ar="المهارات">Skills</a>
+    <a href="#projects" data-en="Projects" data-ar="المشاريع">Projects</a>
+    <a href="#certifications" data-en="Certifications" data-ar="الشهادات">Certifications</a>
+    <a href="#tools" data-en="Tools" data-ar="الأدوات">Tools</a>
+    <a href="#learning" data-en="Learning" data-ar="أتعلم الآن">Learning</a>
+    <a href="#contact" data-en="Contact" data-ar="تواصل">Contact</a>
+  </nav>
+
+  <main>
+    <section id="about">
+      <h2 data-en="About Me" data-ar="عنّي">About Me</h2>
+      <div class="card">
+        <p data-en="I'm a passionate Full Stack Developer with expertise in modern web technologies. I love creating efficient, scalable solutions that make a real difference. My journey in programming started with curiosity and has evolved into a deep passion for building amazing digital experiences." data-ar="أنا مطور شامل متحمس لديه خبرة في تقنيات الويب الحديثة. أحب إنشاء حلول فعالة وقابلة للتطوير تحدث فرقاً حقيقياً. بدأت رحلتي في البرمجة بالفضول وتطورت إلى شغف عميق لبناء تجارب رقمية مذهلة.">I'm a passionate Full Stack Developer with expertise in modern web technologies. I love creating efficient, scalable solutions that make a real difference. My journey in programming started with curiosity and has evolved into a deep passion for building amazing digital experiences.</p>
+      </div>
+    </section>
+
+    <section id="skills">
+      <h2 data-en="Skills" data-ar="المهارات">Skills</h2>
+      <div class="card-grid">
+        <div class="card">
+          <h3 data-en="Frontend" data-ar="الواجهة الأمامية">Frontend</h3>
+          <div>
+            <span class="skill-tag">HTML5</span>
+            <span class="skill-tag">CSS3</span>
+            <span class="skill-tag">JavaScript</span>
+            <span class="skill-tag">React</span>
+            <span class="skill-tag">Vue.js</span>
+            <span class="skill-tag">TypeScript</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3 data-en="Backend" data-ar="الخلفية">Backend</h3>
+          <div>
+            <span class="skill-tag">Node.js</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">Express.js</span>
+            <span class="skill-tag">Django</span>
+            <span class="skill-tag">MongoDB</span>
+            <span class="skill-tag">MySQL</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3 data-en="Mobile" data-ar="الجوال">Mobile</h3>
+          <div>
+            <span class="skill-tag">React Native</span>
+            <span class="skill-tag">Flutter</span>
+            <span class="skill-tag">Ionic</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <h2 data-en="Projects" data-ar="المشاريع">Projects</h2>
+      <div class="card-grid">
+        <div class="card">
+          <h3 data-en="E-commerce Platform" data-ar="منصة التجارة الإلكترونية">E-commerce Platform</h3>
+          <p data-en="A full-featured online store with payment integration, inventory management, and admin dashboard." data-ar="متجر إلكتروني متكامل مع دمج الدفع وإدارة المخزون ولوحة تحكم الإدارة.">A full-featured online store with payment integration, inventory management, and admin dashboard.</p>
+        </div>
+        <div class="card">
+          <h3 data-en="Task Management App" data-ar="تطبيق إدارة المهام">Task Management App</h3>
+          <p data-en="A collaborative task management tool with real-time updates, team collaboration, and progress tracking." data-ar="أداة إدارة المهام التعاونية مع التحديثات المباشرة والتعاون الجماعي وتتبع التقدم.">A collaborative task management tool with real-time updates, team collaboration, and progress tracking.</p>
+        </div>
+        <div class="card">
+          <h3 data-en="Weather Dashboard" data-ar="لوحة معلومات الطقس">Weather Dashboard</h3>
+          <p data-en="A responsive weather application with location-based forecasts, interactive maps, and weather alerts." data-ar="تطبيق طقس متجاوب مع توقعات مبنية على الموقع وخرائط تفاعلية وتنبيهات الطقس.">A responsive weather application with location-based forecasts, interactive maps, and weather alerts.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="certifications">
+      <h2 data-en="Certifications" data-ar="الشهادات">Certifications</h2>
+      <div class="card-grid">
+        <div class="card">
+          <h3 data-en="Full Stack Web Development" data-ar="تطوير الويب الشامل">Full Stack Web Development</h3>
+          <p data-en="Certified in modern web development technologies and best practices." data-ar="معتمد في تقنيات تطوير الويب الحديثة وأفضل الممارسات.">Certified in modern web development technologies and best practices.</p>
+        </div>
+        <div class="card">
+          <h3 data-en="Cloud Computing" data-ar="الحوسبة السحابية">Cloud Computing</h3>
+          <p data-en="AWS and Azure cloud services certification with hands-on experience." data-ar="شهادة خدمات AWS و Azure السحابية مع خبرة عملية.">AWS and Azure cloud services certification with hands-on experience.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="tools">
+      <h2 data-en="Tools & Technologies" data-ar="الأدوات والتقنيات">Tools & Technologies</h2>
+      <div class="card">
+        <div>
+          <span class="skill-tag">Git</span>
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">Kubernetes</span>
+          <span class="skill-tag">Jenkins</span>
+          <span class="skill-tag">VS Code</span>
+          <span class="skill-tag">Figma</span>
+          <span class="skill-tag">Postman</span>
+          <span class="skill-tag">Jira</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="learning">
+      <h2 data-en="Currently Learning" data-ar="أتعلم حالياً">Currently Learning</h2>
+      <div class="card">
+        <ul>
+          <li data-en="Machine Learning with Python" data-ar="تعلم الآلة مع بايثون">Machine Learning with Python</li>
+          <li data-en="GraphQL and Apollo" data-ar="GraphQL و Apollo">GraphQL and Apollo</li>
+          <li data-en="Microservices Architecture" data-ar="معمارية الخدمات المصغرة">Microservices Architecture</li>
+          <li data-en="Web3 and Blockchain Development" data-ar="تطوير الويب 3 والبلوك تشين">Web3 and Blockchain Development</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2 data-en="Get In Touch" data-ar="تواصل معي">Get In Touch</h2>
+      <form>
+        <input type="text" placeholder="Your Name / اسمك" required>
+        <input type="email" placeholder="Your Email / بريدك الإلكتروني" required>
+        <textarea rows="5" placeholder="Your Message / رسالتك" required></textarea>
+        <button type="submit" data-en="Send Message" data-ar="إرسال الرسالة">Send Message</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <a href="#" class="cv-btn" data-en="📄 Download CV" data-ar="📄 تحميل السيرة الذاتية">📄 Download CV</a>
+    <p data-en="© 2025 Houssam. All rights reserved." data-ar="© 2025 حسام. جميع الحقوق محفوظة.">© 2025 Houssam. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const langSelect = document.getElementById('langSelect');
+    const modeToggle = document.getElementById('modeToggle');
+
+    function switchLang(lang) {
+      document.querySelectorAll('[data-en]').forEach(el => {
+        const text = el.getAttribute(`data-${lang}`);
+        if (text) {
+          el.textContent = text;
+        }
+      });
+      document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+      document.documentElement.lang = lang;
+      localStorage.setItem("siteLang", lang);
+    }
+
+    function toggleMode() {
+      document.body.classList.toggle("light-mode");
+      const isLight = document.body.classList.contains("light-mode");
+      localStorage.setItem("theme", isLight ? "light" : "dark");
+      modeToggle.textContent = isLight ? "🌞" : "🌓";
+    }
+
+    // Initialize particles
+    function initParticles() {
+      if (typeof particlesJS !== 'undefined') {
+        particlesJS("particles-js", {
+          particles: {
+            number: { value: 50 },
+            color: { value: "#00e6e6" },
+            shape: { type: "circle" },
+            opacity: { 
+              value: 0.5,
+              random: true,
+              anim: { enable: true, speed: 1, opacity_min: 0.1 }
+            },
+            size: { 
+              value: 3,
+              random: true,
+              anim: { enable: true, speed: 2, size_min: 0.1 }
+            },
+            line_linked: {
+              enable: true,
+              distance: 150,
+              color: "#00e6e6",
+              opacity: 0.4,
+              width: 1
+            },
+            move: { 
+              enable: true, 
+              speed: 2,
+              direction: "none",
+              random: false,
+              straight: false,
+              out_mode: "out",
+              bounce: false
+            }
+          },
+          interactivity: {
+            detect_on: "canvas",
+            events: { 
+              onhover: { enable: true, mode: "repulse" },
+              onclick: { enable: true, mode: "push" }
+            },
+            modes: { 
+              repulse: { distance: 100, duration: 0.4 },
+              push: { particles_nb: 4 }
+            }
+          },
+          retina_detect: true
+        });
+      }
+    }
+
+    // Initialize on page load
+    window.onload = () => {
+      // Load saved preferences
+      const savedLang = localStorage.getItem("siteLang") || "en";
+      const savedTheme = localStorage.getItem("theme") || "dark";
+
+      langSelect.value = savedLang;
+      switchLang(savedLang);
+
+      if (savedTheme === "light") {
+        document.body.classList.add("light-mode");
+        modeToggle.textContent = "🌞";
+      } else {
+        modeToggle.textContent = "🌓";
+      }
+
+      // Initialize particles
+      initParticles();
+
+      // Smooth scrolling for navigation links
+      document.querySelectorAll('.navbar a').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+    };
+
+    // Event listeners
+    modeToggle.addEventListener("click", toggleMode);
+
+    // Form submission handler
+    document.querySelector('form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert(langSelect.value === 'ar' ? 'شكراً لك! سيتم التواصل معك قريباً.' : 'Thank you! I will get back to you soon.');
+      this.reset();
+    });
+  </script>
+</body>
+</html>
