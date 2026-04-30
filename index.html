@@ -13,7 +13,6 @@
 }
 html, body { min-height: 100%; background: var(--dark); overflow-x: hidden; }
 
-/* ===== BACKGROUND: CSS-only, no canvas, no heavy blur ===== */
 .bg-stars {
   position: fixed; inset: 0; z-index: 0; pointer-events: none;
   background:
@@ -33,20 +32,16 @@ html, body { min-height: 100%; background: var(--dark); overflow-x: hidden; }
     radial-gradient(1px 1px at 95% 10%, rgba(232,200,106,0.5) 0%, transparent 100%),
     radial-gradient(1px 1px at 50% 50%, rgba(255,255,255,0.2) 0%, transparent 100%);
 }
-
-/* Single subtle orb — no blur filter on mobile */
 .orb {
   position: fixed; border-radius: 50%; pointer-events: none; z-index: 1;
   width: 380px; height: 380px;
   background: radial-gradient(circle, rgba(180,130,30,0.09) 0%, transparent 70%);
   top: -100px; left: -100px;
-  /* Only animate on devices that can handle it */
   animation: orb-drift 14s ease-in-out infinite alternate;
 }
 @media (prefers-reduced-motion: reduce) { .orb { animation: none; } }
 @keyframes orb-drift { from{transform:translate(0,0)} to{transform:translate(25px,18px)} }
 
-/* ===== LAYOUT ===== */
 .page {
   position: relative; z-index: 2;
   min-height: 100vh;
@@ -54,12 +49,12 @@ html, body { min-height: 100%; background: var(--dark); overflow-x: hidden; }
   padding: 70px 24px;
 }
 
-/* ===== CROWN ===== */
+/* Crown */
 .crown-wrap { margin-bottom: 26px; opacity:0; animation: reveal 1s ease 0.1s forwards; }
 .crown-svg { width:52px; height:auto; filter:drop-shadow(0 0 10px rgba(232,200,106,0.55)); }
 
-/* ===== PROFILE ===== */
-.profile-wrap { margin-bottom: 18px; opacity:0; animation: reveal 1s ease 0.2s forwards; position:relative; display:inline-block; }
+/* Profile */
+.profile-wrap { margin-bottom: 18px; opacity:0; animation: reveal 1s ease 0.2s forwards; }
 .profile-ring {
   width:88px; height:88px; border-radius:50%; padding:2px;
   background:linear-gradient(135deg,#8a6820,#e8c86a,#f7e4a0,#e8c86a,#8a6820);
@@ -73,10 +68,9 @@ html, body { min-height: 100%; background: var(--dark); overflow-x: hidden; }
   background:linear-gradient(145deg,#1c1508,#2a1f05);
 }
 .profile-avatar { width:72%; height:72%; }
-/* No status dot on profile — only on WhatsApp card */
 
-/* ===== NAME ===== */
-.name-block { text-align:center; margin-bottom:8px; opacity:0; animation:reveal 1s ease 0.3s forwards; }
+/* Name */
+.name-block { text-align:center; margin-bottom:28px; opacity:0; animation:reveal 1s ease 0.3s forwards; }
 .name-sub { font-family:'Raleway',sans-serif; font-weight:100; font-size:9px; letter-spacing:0.55em; color:var(--gold-1); text-transform:uppercase; margin-bottom:10px; display:block; }
 .name-main {
   font-family:'Cinzel',serif; font-weight:900;
@@ -89,103 +83,94 @@ html, body { min-height: 100%; background: var(--dark); overflow-x: hidden; }
 }
 @keyframes shimmer { 0%{background-position:200% 0%} 100%{background-position:-200% 0%} }
 
-/* ===== STATS ===== */
-.stats-bar { display:flex; gap:24px; align-items:center; margin-bottom:4px; opacity:0; animation:reveal 1s ease 0.45s forwards; }
-.stat { text-align:center; }
-.stat-num { display:block; font-family:'Cinzel',serif; font-weight:600; font-size:13px; color:var(--gold-2); letter-spacing:0.05em; }
-.stat-label { display:block; font-family:'Raleway',sans-serif; font-weight:200; font-size:7.5px; letter-spacing:0.28em; text-transform:uppercase; color:rgba(200,151,58,0.5); margin-top:2px; }
-.stat-sep { width:1px; height:26px; background:linear-gradient(to bottom,transparent,rgba(200,151,58,0.3),transparent); }
-
-/* ===== DIVIDER ===== */
-.divider { display:flex; align-items:center; width:300px; max-width:100%; margin:22px auto 32px; opacity:0; animation:reveal 1s ease 0.55s forwards; }
+/* Divider */
+.divider { display:flex; align-items:center; width:300px; max-width:100%; margin:0 auto 32px; opacity:0; animation:reveal 1s ease 0.4s forwards; }
 .div-line { flex:1; height:1px; background:linear-gradient(to right,transparent,var(--gold-1)); }
 .div-line.r { background:linear-gradient(to left,transparent,var(--gold-1)); }
 .div-center { display:flex; align-items:center; gap:7px; padding:0 12px; }
 .div-d { width:6px;height:6px; background:var(--gold-2); transform:rotate(45deg); box-shadow:0 0 8px rgba(232,200,106,0.8); }
 .div-d-sm { width:3.5px;height:3.5px; background:var(--gold-1); transform:rotate(45deg); opacity:0.6; }
 
-/* ===== CARDS ===== */
+/* Cards */
 .cards { display:flex; flex-direction:column; gap:10px; width:100%; max-width:440px; }
-
 .card { position:relative; text-decoration:none; display:flex; align-items:center; overflow:hidden; opacity:0; animation:slide-up 0.8s cubic-bezier(0.16,1,0.3,1) forwards; }
-.card:nth-child(1){animation-delay:0.65s} .card:nth-child(2){animation-delay:0.78s} .card:nth-child(3){animation-delay:0.91s} .card:nth-child(4){animation-delay:1.04s} .card:nth-child(5){animation-delay:1.17s}
+.card:nth-child(1){animation-delay:0.5s}
+.card:nth-child(2){animation-delay:0.63s}
+.card:nth-child(3){animation-delay:0.76s}
+.card:nth-child(4){animation-delay:0.89s}
+.card:nth-child(5){animation-delay:1.02s}
+.card:nth-child(6){animation-delay:1.15s}
+.card:nth-child(7){animation-delay:1.28s}
 
-/* WhatsApp featured card */
+/* WhatsApp featured */
 .card.featured .card-inner { background:linear-gradient(135deg,rgba(37,211,102,0.05),rgba(37,211,102,0.02)); border-color:rgba(37,211,102,0.18); }
-.card.featured .card-inner:hover { background:linear-gradient(135deg,rgba(37,211,102,0.1),rgba(37,211,102,0.04)); border-color:rgba(37,211,102,0.4); }
 .card.featured .featured-badge { display:flex; }
 .featured-badge { display:none; align-items:center; gap:5px; position:absolute; top:10px; right:14px; font-family:'Raleway',sans-serif; font-weight:300; font-size:8px; letter-spacing:0.22em; text-transform:uppercase; color:#25D366; }
-.featured-dot { width:7px; height:7px; border-radius:50%; background:#25D366; box-shadow:0 0 8px rgba(37,211,102,0.9); animation:status-pulse 2s ease-in-out infinite; }
-/* Online dot on the icon itself */
+.featured-dot { width:7px; height:7px; border-radius:50%; background:#25D366; box-shadow:0 0 8px rgba(37,211,102,0.9); animation:pulse-wa 2s ease-in-out infinite; }
 .card.featured .card-icon { position:relative; }
 .card.featured .card-icon::after {
   content:''; position:absolute; bottom:-2px; right:-2px;
   width:14px; height:14px; background:#25D366; border-radius:50%;
-  border:2px solid var(--dark);
-  box-shadow:0 0 10px rgba(37,211,102,0.9);
-  animation:status-pulse 2s ease-in-out infinite;
+  border:2px solid var(--dark); box-shadow:0 0 10px rgba(37,211,102,0.9);
+  animation:pulse-wa 2s ease-in-out infinite;
 }
-@keyframes status-pulse { 0%,100%{box-shadow:0 0 7px rgba(37,211,102,0.7)} 50%{box-shadow:0 0 16px rgba(37,211,102,1)} }
+@keyframes pulse-wa { 0%,100%{box-shadow:0 0 7px rgba(37,211,102,0.7)} 50%{box-shadow:0 0 16px rgba(37,211,102,1)} }
 
 .card-inner {
   width:100%; display:flex; align-items:center; gap:18px; padding:18px 22px;
   background:linear-gradient(135deg,rgba(255,255,255,0.022),rgba(255,255,255,0.008));
-  border:1px solid rgba(200,151,58,0.11);
-  position:relative;
-  /* NO backdrop-filter on mobile — huge perf killer */
-  transition:background 0.4s ease, border-color 0.4s ease, transform 0.3s ease;
+  border:1px solid rgba(200,151,58,0.11); position:relative;
+  transition:background 0.4s, border-color 0.4s, transform 0.3s;
 }
-
-/* Corner accents — CSS only, no pseudo-filter */
-.card-inner::before,.card-inner::after { content:''; position:absolute; width:10px; height:10px; transition:all 0.35s ease; opacity:0; }
+.card-inner::before,.card-inner::after { content:''; position:absolute; width:10px; height:10px; transition:all 0.35s; opacity:0; }
 .card-inner::before { top:-1px;left:-1px; border-top:1px solid var(--gold-2); border-left:1px solid var(--gold-2); }
-.card-inner::after { bottom:-1px;right:-1px; border-bottom:1px solid var(--gold-2); border-right:1px solid var(--gold-2); }
+.card-inner::after  { bottom:-1px;right:-1px; border-bottom:1px solid var(--gold-2); border-right:1px solid var(--gold-2); }
 
-/* Hover — only on non-touch (pointer: fine = mouse/trackpad) */
-@media (hover: hover) and (pointer: fine) {
+@media (hover:hover) and (pointer:fine) {
   .card:hover .card-inner { background:linear-gradient(135deg,rgba(200,151,58,0.07),rgba(200,151,58,0.025)); border-color:rgba(200,151,58,0.32); transform:translateY(-2px); box-shadow:0 16px 50px rgba(0,0,0,0.45); }
   .card:hover .card-inner::before,.card:hover .card-inner::after { opacity:1; width:18px; height:18px; }
-  .card:hover .card-icon { transform:scale(1.08) rotate(-3deg); }
-  .card:hover .card-handle { color:var(--gold-3); }
+  .card:hover .card-icon  { transform:scale(1.08) rotate(-3deg); }
+  .card:hover .card-handle{ color:var(--gold-3); }
   .card:hover .card-arrow { opacity:1; transform:translateX(0); }
 }
-
-/* Touch active state for mobile */
 .card:active .card-inner { background:linear-gradient(135deg,rgba(200,151,58,0.07),rgba(200,151,58,0.025)); border-color:rgba(200,151,58,0.32); }
 
-.card-icon { width:44px; height:44px; border-radius:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:transform 0.35s cubic-bezier(0.16,1,0.3,1); }
-.card-icon svg { width:22px; height:22px; }
-.icon-ig { background:linear-gradient(135deg,#405de6,#5851db,#833ab4,#c13584,#e1306c,#fd1d1d,#f56040,#f77737,#fcaf45,#ffdc80); }
-.icon-fb { background:#1877F2; } .icon-yt { background:#FF0000; } .icon-wa { background:#25D366; } .icon-tt { background:#010101; border:1px solid rgba(255,255,255,0.14); }
+.card-icon { width:44px; height:44px; border-radius:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:transform 0.35s cubic-bezier(0.16,1,0.3,1); overflow:hidden; }
+.card-icon svg { width:22px; height:22px; display:block; }
+
+.icon-wa   { background:#25D366; }
+.icon-ig   { background:linear-gradient(135deg,#405de6,#833ab4,#e1306c,#f77737,#ffdc80); }
+.icon-tt   { background:#010101; border:1px solid rgba(255,255,255,0.14); }
+.icon-yt   { background:#FF0000; }
+.icon-fb   { background:#1877F2; }
+.icon-snap { background:#FFFC00; }
+.icon-tg   { background:linear-gradient(135deg,#2AABEE,#229ED9); }
 
 .card-text { flex:1; }
 .card-platform { display:block; font-family:'Raleway',sans-serif; font-weight:200; font-size:8.5px; letter-spacing:0.32em; text-transform:uppercase; color:var(--gold-1); margin-bottom:3px; }
-.card-handle { display:block; font-family:'Playfair Display',serif; font-size:17px; font-weight:400; color:var(--white); letter-spacing:0.04em; transition:color 0.3s; }
+.card-handle   { display:block; font-family:'Playfair Display',serif; font-size:17px; color:var(--white); letter-spacing:0.04em; transition:color 0.3s; }
 
-.card-arrow { display:flex; align-items:center; justify-content:center; width:30px; height:30px; border:1px solid rgba(200,151,58,0.2); border-radius:50%; flex-shrink:0; opacity:0; transform:translateX(-8px); transition:all 0.35s ease; }
+.card-arrow { display:flex; align-items:center; justify-content:center; width:30px; height:30px; border:1px solid rgba(200,151,58,0.2); border-radius:50%; flex-shrink:0; opacity:0; transform:translateX(-8px); transition:all 0.35s; }
 .card-arrow svg { width:12px; height:12px; stroke:var(--gold-2); }
 
-/* ===== FOOTER ===== */
-.footer { margin-top:46px; text-align:center; opacity:0; animation:reveal 1s ease 1.4s forwards; }
+/* Footer */
+.footer { margin-top:46px; text-align:center; opacity:0; animation:reveal 1s ease 1.5s forwards; }
 .footer-diamonds { display:flex; align-items:center; justify-content:center; gap:7px; margin-bottom:12px; }
 .fd { width:3.5px;height:3.5px; background:var(--gold-1); transform:rotate(45deg); opacity:0.3; }
 .fd.active { opacity:1; box-shadow:0 0 7px rgba(200,151,58,0.8); animation:pulse-d 2s ease infinite; }
 @keyframes pulse-d { 0%,100%{box-shadow:0 0 7px rgba(200,151,58,0.8)} 50%{box-shadow:0 0 16px rgba(232,200,106,1)} }
 .footer-text { font-family:'Raleway',sans-serif; font-weight:100; font-size:8.5px; letter-spacing:0.45em; color:rgba(200,151,58,0.3); text-transform:uppercase; }
 
-/* ===== ANIMATIONS ===== */
-@keyframes reveal { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:translateY(0)} }
-@keyframes slide-up { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+@keyframes reveal   { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:translateY(0)} }
+@keyframes slide-up { from{opacity:0;transform:translateY(24px)}  to{opacity:1;transform:translateY(0)} }
 
-/* ===== MOBILE PERF: disable heavy animations on small screens ===== */
-@media (max-width: 480px) {
+@media (max-width:480px) {
   @keyframes shimmer { 0%,100%{background-position:0% 0%} }
-  .orb { display: none; } /* Remove orb entirely on small mobile */
+  .orb { display:none; }
 }
 </style>
 </head>
 <body>
-
 <div class="bg-stars"></div>
 <div class="orb"></div>
 
@@ -195,17 +180,17 @@ html, body { min-height: 100%; background: var(--dark); overflow-x: hidden; }
     <svg class="crown-svg" viewBox="0 0 100 60" fill="none">
       <defs>
         <linearGradient id="cg" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#8a6820"/>
-          <stop offset="30%" stop-color="#e8c86a"/>
-          <stop offset="50%" stop-color="#f7e4a0"/>
-          <stop offset="70%" stop-color="#e8c86a"/>
+          <stop offset="0%"   stop-color="#8a6820"/>
+          <stop offset="30%"  stop-color="#e8c86a"/>
+          <stop offset="50%"  stop-color="#f7e4a0"/>
+          <stop offset="70%"  stop-color="#e8c86a"/>
           <stop offset="100%" stop-color="#8a6820"/>
         </linearGradient>
       </defs>
       <path d="M5 55 L5 35 L20 10 L35 30 L50 5 L65 30 L80 10 L95 35 L95 55 Z" stroke="url(#cg)" stroke-width="1.5" fill="none"/>
-      <rect x="47" y="2" width="6" height="6" transform="rotate(45 50 5)" fill="url(#cg)" opacity="0.9"/>
-      <rect x="17" y="7" width="4" height="4" transform="rotate(45 20 9)" fill="url(#cg)" opacity="0.6"/>
-      <rect x="77" y="7" width="4" height="4" transform="rotate(45 80 9)" fill="url(#cg)" opacity="0.6"/>
+      <rect x="47" y="2"  width="6" height="6" transform="rotate(45 50 5)"  fill="url(#cg)" opacity="0.9"/>
+      <rect x="17" y="7"  width="4" height="4" transform="rotate(45 20 9)"  fill="url(#cg)" opacity="0.6"/>
+      <rect x="77" y="7"  width="4" height="4" transform="rotate(45 80 9)"  fill="url(#cg)" opacity="0.6"/>
       <line x1="5" y1="55" x2="95" y2="55" stroke="url(#cg)" stroke-width="1"/>
       <rect x="10" y="52" width="4" height="4" transform="rotate(45 12 54)" fill="url(#cg)" opacity="0.5"/>
       <rect x="46" y="52" width="4" height="4" transform="rotate(45 48 54)" fill="url(#cg)" opacity="0.5"/>
@@ -216,12 +201,12 @@ html, body { min-height: 100%; background: var(--dark); overflow-x: hidden; }
   <div class="profile-wrap">
     <div class="profile-ring">
       <div class="profile-img">
-        <svg class="profile-avatar" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="profile-avatar" viewBox="0 0 100 100" fill="none">
           <defs>
             <linearGradient id="ag" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#8a6820"/>
-              <stop offset="35%" stop-color="#e8c86a"/>
-              <stop offset="60%" stop-color="#f7e4a0"/>
+              <stop offset="0%"   stop-color="#8a6820"/>
+              <stop offset="35%"  stop-color="#e8c86a"/>
+              <stop offset="60%"  stop-color="#f7e4a0"/>
               <stop offset="100%" stop-color="#c8973a"/>
             </linearGradient>
           </defs>
@@ -237,23 +222,6 @@ html, body { min-height: 100%; background: var(--dark); overflow-x: hidden; }
     <div class="name-main">HOUSSAM</div>
   </div>
 
-  <div class="stats-bar">
-    <div class="stat">
-      <span class="stat-num">245K</span>
-      <span class="stat-label">Followers</span>
-    </div>
-    <div class="stat-sep"></div>
-    <div class="stat">
-      <span class="stat-num">1.2M</span>
-      <span class="stat-label">Likes</span>
-    </div>
-    <div class="stat-sep"></div>
-    <div class="stat">
-      <span class="stat-num">89</span>
-      <span class="stat-label">Posts</span>
-    </div>
-  </div>
-
   <div class="divider">
     <div class="div-line"></div>
     <div class="div-center">
@@ -266,8 +234,8 @@ html, body { min-height: 100%; background: var(--dark); overflow-x: hidden; }
 
   <div class="cards">
 
-    <!-- WhatsApp — FIRST + online dot -->
-    <a href="https://wa.me/houssamchaouch" class="card featured" target="_blank" rel="noopener">
+    <!-- 1. WhatsApp -->
+    <a href="https://wa.me/213799805223" class="card featured" target="_blank" rel="noopener">
       <div class="card-inner">
         <div class="featured-badge"><div class="featured-dot"></div> Online</div>
         <div class="card-icon icon-wa">
@@ -283,15 +251,15 @@ html, body { min-height: 100%; background: var(--dark); overflow-x: hidden; }
       </div>
     </a>
 
-    <!-- Instagram -->
-    <a href="https://instagram.com/houssamchaouch" class="card" target="_blank" rel="noopener">
+    <!-- 2. Instagram -->
+    <a href="https://www.instagram.com/housssam.7?igsh=MXRvOGQ0ZWtoemd0cw==" class="card" target="_blank" rel="noopener">
       <div class="card-inner">
         <div class="card-icon icon-ig">
           <svg viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
         </div>
         <div class="card-text">
           <span class="card-platform">Instagram</span>
-          <span class="card-handle">@houssamchaouch</span>
+          <span class="card-handle">@housssam.7</span>
         </div>
         <div class="card-arrow">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -299,15 +267,15 @@ html, body { min-height: 100%; background: var(--dark); overflow-x: hidden; }
       </div>
     </a>
 
-    <!-- TikTok -->
-    <a href="https://tiktok.com/@houssamchaouch" class="card" target="_blank" rel="noopener">
+    <!-- 3. TikTok -->
+    <a href="https://www.tiktok.com/@houuussam999?_r=1&_t=ZS-95xXCeQl9cK" class="card" target="_blank" rel="noopener">
       <div class="card-inner">
         <div class="card-icon icon-tt">
           <svg viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.74a4.85 4.85 0 01-1.01-.05z"/></svg>
         </div>
         <div class="card-text">
           <span class="card-platform">TikTok</span>
-          <span class="card-handle">@houssamchaouch</span>
+          <span class="card-handle">@houuussam999</span>
         </div>
         <div class="card-arrow">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -315,11 +283,41 @@ html, body { min-height: 100%; background: var(--dark); overflow-x: hidden; }
       </div>
     </a>
 
-    <!-- YouTube -->
-    <a href="https://youtube.com/@houssamchaouch" class="card" target="_blank" rel="noopener">
+    <!-- 4. YouTube -->
+    <a href="https://youtube.com/@houuuussam?feature=shared" class="card" target="_blank" rel="noopener">
       <div class="card-inner">
         <div class="card-icon icon-yt">
           <svg viewBox="0 0 24 24" fill="white"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
         </div>
         <div class="card-text">
-          <span class="card-platform">YouTube</span
+          <span class="card-platform">YouTube</span>
+          <span class="card-handle">@houuuussam</span>
+        </div>
+        <div class="card-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+    </a>
+
+    <!-- 5. Facebook -->
+    <a href="https://www.facebook.com/share/18eHX5JCKC/" class="card" target="_blank" rel="noopener">
+      <div class="card-inner">
+        <div class="card-icon icon-fb">
+          <svg viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </div>
+        <div class="card-text">
+          <span class="card-platform">Facebook</span>
+          <span class="card-handle">Houssam</span>
+        </div>
+        <div class="card-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+    </a>
+
+    <!-- 6. Snapchat — icon: ghost shape on yellow -->
+    <a href="https://www.snapchat.com/add/houssam.7zz?share_id=6FoeTUTVBvQ&locale=en-DZ" class="card" target="_blank" rel="noopener">
+      <div class="card-inner">
+        <div class="card-icon icon-snap">
+          <svg viewBox="0 0 24 24" fill="#000000" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.007 2c-1.66 0-3.235.504-4.347 1.485C6.444 4.52 5.8 5.98 5.8 7.56v.639c0 .162-.086.305-.216.394-.228.154-.558.24-.916.24-.225 0-.434-.04-.582-.076l-.01-.002c-.112-.028-.212-.008-.274.055-.057.058-.066.148-.024.25.136.303.524.604 1.103.713l.0
